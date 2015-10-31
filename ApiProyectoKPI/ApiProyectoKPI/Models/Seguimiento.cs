@@ -5,14 +5,14 @@ using System.Web;
 
 namespace ApiProyectoKPI.Models
 {
-    public class Segumiento
+    public class Seguimiento
     {
-        public Segumiento()
+        public Seguimiento()
         {
             FechaHora = DateTime.Now;
         }
 
-        public int SeguimientoID { get; set; }
+        public int SeguimientoID{ get; set; }
         public DateTime FechaHora { get; set; }
         public Prospecto Prospecto { get; set; }
         public string DescSeguimiento { get; set; }

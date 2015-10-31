@@ -165,7 +165,16 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AreaInteresController.cs" />
+    <Compile Include="Controllers\DataBaseContext\ApiKPIsContext.cs" />
+    <Compile Include="Controllers\EventoesController.cs" />
+    <Compile Include="Controllers\FormasContactoesController.cs" />
+    <Compile Include="Controllers\GrupoEmpresarialsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProspectoesController.cs" />
+    <Compile Include="Controllers\SeguimientoesController.cs" />
+    <Compile Include="Controllers\TipoFormaContactoesController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -175,7 +184,7 @@
     <Compile Include="Models\FormasContacto.cs" />
     <Compile Include="Models\GrupoEmpresarial.cs" />
     <Compile Include="Models\Prospecto.cs" />
-    <Compile Include="Models\Segumiento.cs" />
+    <Compile Include="Models\Seguimiento.cs" />
     <Compile Include="Models\TipoFormaContacto.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,9 +10,11 @@ namespace ApiProyectoKPI.Models
 
         public Evento()
         {
-
+            FechaEvento = DateTime.Now;
         }
         public int EventoID { get; set; }
-        public string Nombre { get; set; }
+        public string DescEventoCaptacion { get; set; }
+        public DateTime FechaEvento { get; set; }
+        public string LugarEvento { get; set; }
     }
 }
