@@ -116,3 +116,4 @@ C:\Users\Chris\Desktop\RepoLocalApi\ApiProyectoKPI\ApiProyectoKPI\bin\es\System.
 C:\Users\Chris\Desktop\RepoLocalApi\ApiProyectoKPI\ApiProyectoKPI\bin\es\System.Web.WebPages.Razor.resources.dll
 C:\Users\Chris\Desktop\RepoLocalApi\ApiProyectoKPI\ApiProyectoKPI\obj\Debug\ApiProyectoKPI.dll
 C:\Users\Chris\Desktop\RepoLocalApi\ApiProyectoKPI\ApiProyectoKPI\obj\Debug\ApiProyectoKPI.pdb
+C:\Users\Chris\Desktop\RepoLocalApi\ApiProyectoKPI\ApiProyectoKPI\obj\Debug\ApiProyectoKPI.csprojResolveAssemblyReference.cache

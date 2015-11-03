@@ -11,7 +11,7 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
     {
         public ApiKPIsContext (): base("name=KPIsStoreConnectionString")
         {
-
+            Database.SetInitializer<ApiKPIsContext>(new  DropCreateDatabaseIfModelChanges<ApiKPIsContext>());
         }
 
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.AreaInteres> AreaInteres { get; set; }

@@ -14,7 +14,7 @@ namespace ApiProyectoKPI.Models
         }
 
         public int FormasContactoID { get; set; }
-        public Prospecto Prospecto { get; set; }
+        public Prospecto Prospecto{ get; set; }
         public int Item { get; set; }
         public GrupoEmpresarial GrupoEmpresarial { get; set; }
         public TipoFormaContacto TipoFormaContacto { get; set; }

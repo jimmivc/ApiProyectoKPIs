@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiProyectoKPI.Models
 {
@@ -34,9 +33,9 @@ namespace ApiProyectoKPI.Models
         public string IsHabilitado { get; set; }
         public Usuario Usuario { get; set; }
         [JsonIgnore]
-        public ICollection<FormasContacto> FormasContacto { get; set; }
+        public ICollection<FormasContacto> FormasContactos { get; set; }
         [JsonIgnore]
-        public ICollection<AreaInteres> AreasInteres { get; set; }
+        public ICollection<AreaInteres> AreasIntereses { get; set; }
 
 
 

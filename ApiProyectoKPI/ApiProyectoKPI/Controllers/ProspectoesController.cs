@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using ApiProyectoKPI.Controllers.DataBaseContext;
 using ApiProyectoKPI.Models;
+using System.Web.Routing;
 
 namespace ApiProyectoKPI.Controllers
 {
@@ -20,14 +21,18 @@ namespace ApiProyectoKPI.Controllers
         // GET: api/Prospectoes
         public IQueryable<Prospecto> GetProspectoes()
         {
-            return db.Prospectoes;
-        }
 
+            return db.Prospectoes.Include (e => e.Evento);
+
+        }
+        
         // GET: api/Prospectoes/5
         [ResponseType(typeof(Prospecto))]
         public IHttpActionResult GetProspecto(int id)
         {
-            Prospecto prospecto = db.Prospectoes.Find(id);
+            Prospecto prospecto = db.Prospectoes.Where(i => i.ProspectoID == id).
+                Include(e => e.Evento).FirstOrDefault();
+
             if (prospecto == null)
             {
                 return NotFound();
@@ -36,6 +41,20 @@ namespace ApiProyectoKPI.Controllers
             return Ok(prospecto);
         }
 
+        // GET: api/Prospectoes/iden/id
+        [Route("api/Prospectoes/iden/{id}")]
+        [ResponseType(typeof(Prospecto))]
+        public IHttpActionResult GetProspectoIden(int iden)
+        {
+            Prospecto prospecto = db.Prospectoes.Find();
+
+            if (prospecto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(prospecto);
+        }
         // PUT: api/Prospectoes/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutProspecto(int id, Prospecto prospecto)
@@ -79,7 +98,10 @@ namespace ApiProyectoKPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            if (prospecto == null)
+            {
+                return NotFound();
+            }
             db.Prospectoes.Add(prospecto);
             db.SaveChanges();
 
