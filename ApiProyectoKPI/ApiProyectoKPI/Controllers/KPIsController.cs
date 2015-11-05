@@ -20,14 +20,14 @@ namespace ApiProyectoKPI.Controllers
         // GET: api/KPIs
         public IQueryable<KPI> GetKPIs()
         {
-            return db.KPIs;
+            return db.KPIs.Where(b => b.Estado == true);
         }
 
         // GET: api/KPIs/5
         [ResponseType(typeof(KPI))]
         public IHttpActionResult GetKPI(int id)
         {
-            KPI kPI = db.KPIs.Find(id);
+            KPI kPI = db.KPIs.Where(b => b.KPIID == id).Include(b => b.Parametro).Include(b => b.Formula).FirstOrDefault();
             if (kPI == null)
             {
                 return NotFound();
@@ -52,6 +52,25 @@ namespace ApiProyectoKPI.Controllers
 
             db.Entry(kPI).State = EntityState.Modified;
 
+            //KPI kpiModificado = db.KPIs.Where(b => b.KPIID == id).Include(b => b.Parametro).FirstOrDefault();
+            //List<DetalleFormula> formulas = kPI.Formula.ToList<DetalleFormula>();
+            //List<DetalleFormula> ids = kpiModificado.Formula.ToList<DetalleFormula>();
+
+            //DetalleFormulasController formulaController = new DetalleFormulasController();
+
+            //for (int i = 0; i < kpiModificado.Formula.Count; i++){
+            //    formula.DeleteDetalleFormula(ids[i].DetalleFormulaID);
+            //}
+            //for (int i = 0; i < kPI.Formula.Count; i++)
+            //{
+            //    formulaController.PutDetalleFormula()
+            //    formulas[i].KPI = kPI;
+            //    formula.PostDetalleFormula(formulas[i]);
+            //}
+            //kPI.Formula = formulas;
+            //kPI.Parametro.ParametroKPIID = kpiModificado.Parametro.ParametroKPIID;
+            //kPI.Formula = null;
+
             try
             {
                 db.SaveChanges();
@@ -68,7 +87,7 @@ namespace ApiProyectoKPI.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.OK);
         }
 
         // POST: api/KPIs
@@ -79,26 +98,12 @@ namespace ApiProyectoKPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            kPI.Estado = true;
             db.KPIs.Add(kPI);
+            db.SaveChanges();
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (KPIExists(kPI.KPIID))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = kPI.KPIID }, kPI);
+            return StatusCode(HttpStatusCode.OK);
+            //CreatedAtRoute("DefaultApi", new { id = kPI.KPIID }, kPI);
         }
 
         // DELETE: api/KPIs/5
