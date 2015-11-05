@@ -9,7 +9,7 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
 {
     public class ApiKPIsContext:DbContext
     {
-        public ApiKPIsContext (): base("name=KPIsStoreConnectionString")
+        public ApiKPIsContext (): base("name=KPIsConnectionString")
         {
 
         }
@@ -29,5 +29,17 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Usuario> Usuarios { get; set; }
 
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Seguimiento> Seguimientoes { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Bitacora> Bitacoras { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.DetalleFormula> DetalleFormulas { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.KPI> KPIs { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.ParametroKPI> ParametroKPIs { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Permiso> Permisoes { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Rol> Rols { get; set; }
     }
 }

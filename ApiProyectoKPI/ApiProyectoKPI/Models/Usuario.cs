@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -18,6 +19,8 @@ namespace ApiProyectoKPI.Models
         public string Correo { get; set; }
         public string Contrasena { get; set; }
         public bool IsActivo { get; set; }
+        [Required]
+        public Rol Rol { get; set; }
 
     }
 }
