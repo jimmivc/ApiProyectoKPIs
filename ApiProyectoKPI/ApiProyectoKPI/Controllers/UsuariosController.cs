@@ -20,7 +20,7 @@ namespace ApiProyectoKPI.Controllers
         // GET: api/Usuarios
         public IQueryable<Usuario> GetUsuarios()
         {
-            return db.Usuarios;
+            return db.Usuarios.Include(b => b.Rol);
         }
 
         // GET: api/Usuarios/5
