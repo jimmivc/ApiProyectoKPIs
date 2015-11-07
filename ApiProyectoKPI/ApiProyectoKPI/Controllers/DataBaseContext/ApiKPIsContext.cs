@@ -41,5 +41,8 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Permiso> Permisoes { get; set; }
 
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Rol> Rols { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.RegistroMercadeo> RegistrosMercadeo { get; set; }
+
     }
 }
