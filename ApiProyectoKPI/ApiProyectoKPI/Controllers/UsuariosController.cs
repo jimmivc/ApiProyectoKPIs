@@ -80,6 +80,8 @@ namespace ApiProyectoKPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            usuario.Rol = db.Rols.Find(usuario.Rol.RolID);
+
             db.Usuarios.Add(usuario);
             db.SaveChanges();
 

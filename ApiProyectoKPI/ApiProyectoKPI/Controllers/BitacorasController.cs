@@ -80,6 +80,7 @@ namespace ApiProyectoKPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            bitacora.FechaHora = DateTime.Now;
             db.Bitacoras.Add(bitacora);
             db.SaveChanges();
 
@@ -115,5 +116,12 @@ namespace ApiProyectoKPI.Controllers
         {
             return db.Bitacoras.Count(e => e.BitacoraID == id) > 0;
         }
+
+        public void registrarBitacora(int idUsuario,string evento)
+        {
+            Bitacora bitacora = new Bitacora(idUsuario, evento);
+            db.Bitacoras.Add(bitacora);
+        }
+
     }
 }

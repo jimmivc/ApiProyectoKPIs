@@ -174,3 +174,4 @@ C:\Users\Jimmi\Documents\GitHub\ApiProyectoKPIs\ApiProyectoKPI\ApiProyectoKPI\bi
 C:\Users\Jimmi\Documents\GitHub\ApiProyectoKPIs\ApiProyectoKPI\ApiProyectoKPI\bin\es\System.Web.WebPages.Razor.resources.dll
 C:\Users\Jimmi\Documents\GitHub\ApiProyectoKPIs\ApiProyectoKPI\ApiProyectoKPI\obj\Debug\ApiProyectoKPI.dll
 C:\Users\Jimmi\Documents\GitHub\ApiProyectoKPIs\ApiProyectoKPI\ApiProyectoKPI\obj\Debug\ApiProyectoKPI.pdb
+C:\Users\Jimmi\Documents\GitHub\ApiProyectoKPIs\ApiProyectoKPI\ApiProyectoKPI\obj\Debug\ApiProyectoKPI.csprojResolveAssemblyReference.cache

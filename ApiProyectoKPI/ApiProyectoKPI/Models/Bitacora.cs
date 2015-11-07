@@ -10,10 +10,11 @@ namespace ApiProyectoKPI.Models
         public Bitacora(){
             FechaHora = DateTime.Now;
         }
-        public Bitacora(int idUsuario)
+        public Bitacora(int idUsuario, string accion)
         {
             Usuario = new Usuario();
             Usuario.UsuarioID = idUsuario;
+            Accion = accion;
         }
 
         public int BitacoraID { get; set; }

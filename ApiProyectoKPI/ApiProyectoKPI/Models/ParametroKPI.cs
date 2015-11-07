@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,7 +19,6 @@ namespace ApiProyectoKPI.Models
 
         public int LimiteSuperior { get; set; }
         public int LimiteInferior { get; set; }
-        public KPI KPIAsignado { get; set; }
         
     }
 }

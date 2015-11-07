@@ -24,6 +24,7 @@ namespace ApiProyectoKPI.Models
         [Required]
         public ParametroKPI Parametro { get; set; }
         public ICollection<DetalleFormula> Formula { get; set; }
+        
         public ICollection<Rol> RolesAsignados { get; set; }
     }
 }
