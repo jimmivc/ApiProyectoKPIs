@@ -11,6 +11,7 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
     {
         public ApiKPIsContext (): base("name=KPIsStoreConnectionString")
         {
+            this.Configuration.LazyLoadingEnabled = false;
             Database.SetInitializer<ApiKPIsContext>(new  DropCreateDatabaseIfModelChanges<ApiKPIsContext>());
         }
 

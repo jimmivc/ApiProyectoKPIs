@@ -25,20 +25,62 @@ namespace ApiProyectoKPI.Controllers
             return db.Prospectoes.Include (e => e.Evento);
 
         }
-        
+
+        // GET: api/Prospectoes/is/id
+        [Route("api/Prospectoes/is/{id}")]
+        [ResponseType(typeof(Prospecto))]
+        public IHttpActionResult GetIsProspecto(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                Prospecto prospecto = db.Prospectoes.Find(id);
+                if (prospecto == null)
+                {
+                    return NotFound();
+                }
+                return Ok(prospecto);
+            }
+        }
+
+
         // GET: api/Prospectoes/5
         [ResponseType(typeof(Prospecto))]
         public IHttpActionResult GetProspecto(int id)
         {
-            Prospecto prospecto = db.Prospectoes.Where(i => i.ProspectoID == id).
-                Include(e => e.Evento).FirstOrDefault();
-
-            if (prospecto == null)
+            if (id == 0)
             {
                 return NotFound();
             }
+            else
+            {
+                Prospecto prospecto = db.Prospectoes.Where(i => i.ProspectoID == id).Include(e => e.Evento).FirstOrDefault();
+                db.Entry(prospecto).Collection(f => f.FormasContactos).Load();
+                foreach (FormasContacto f in prospecto.FormasContactos)
+                {
+                    FormasContacto formaConTipo = db.FormasContactoes.Where(i => i.FormasContactoID == f.FormasContactoID).
+                                                  Include(t => t.TipoFormaContacto).FirstOrDefault();
+                    f.TipoFormaContacto = formaConTipo.TipoFormaContacto;
+                }
+                foreach (FormasContacto f in prospecto.FormasContactos)
+                {
+                    FormasContacto formaConGrupo = db.FormasContactoes.Where(i => i.FormasContactoID == f.FormasContactoID).
+                                                  Include(t => t.GrupoEmpresarial).FirstOrDefault();
+                    f.GrupoEmpresarial = formaConGrupo.GrupoEmpresarial;
+                }
 
-            return Ok(prospecto);
+
+
+                if (prospecto == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(prospecto);
+            }
         }
 
         // GET: api/Prospectoes/iden/id
@@ -90,6 +132,9 @@ namespace ApiProyectoKPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+  
+
+
         // POST: api/Prospectoes
         [ResponseType(typeof(Prospecto))]
         public IHttpActionResult PostProspecto(Prospecto prospecto)
@@ -102,7 +147,12 @@ namespace ApiProyectoKPI.Controllers
             {
                 return NotFound();
             }
+            //prospecto.Evento = null;
+            
+            prospecto.Evento = db.Eventoes.Find(prospecto.Evento.EventoID);
+            db.Configuration.AutoDetectChangesEnabled = false;
             db.Prospectoes.Add(prospecto);
+            
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = prospecto.ProspectoID }, prospecto);
@@ -123,6 +173,8 @@ namespace ApiProyectoKPI.Controllers
 
             return Ok(prospecto);
         }
+
+       
 
         protected override void Dispose(bool disposing)
         {

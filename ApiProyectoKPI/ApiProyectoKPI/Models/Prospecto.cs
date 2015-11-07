@@ -32,9 +32,10 @@ namespace ApiProyectoKPI.Models
         public string LugarTrabajo { get; set; }
         public string IsHabilitado { get; set; }
         public Usuario Usuario { get; set; }
-        [JsonIgnore]
+
+        [JsonProperty(propertyName:"FormasContacto")]
         public ICollection<FormasContacto> FormasContactos { get; set; }
-        [JsonIgnore]
+        
         public ICollection<AreaInteres> AreasIntereses { get; set; }
 
 

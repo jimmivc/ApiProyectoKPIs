@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,6 +15,7 @@ namespace ApiProyectoKPI.Models
         }
 
         public int FormasContactoID { get; set; }
+     
         public Prospecto Prospecto{ get; set; }
         public int Item { get; set; }
         public GrupoEmpresarial GrupoEmpresarial { get; set; }

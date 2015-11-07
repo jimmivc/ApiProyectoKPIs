@@ -23,11 +23,34 @@ namespace ApiProyectoKPI.Controllers
             return db.FormasContactoes;
         }
 
+        // GET: api/FormasContactoes/is/id
+        [Route("api/FormasContactoes/is/{id}")]
+        [ResponseType(typeof(FormasContacto))]
+        public IHttpActionResult GetIsFormasContacto(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                FormasContacto formasContacto = db.FormasContactoes.Find(id);
+                if (formasContacto == null)
+                {
+                    return NotFound();
+                }
+                return Ok(formasContacto);
+            }
+        }
+
+
+
         // GET: api/FormasContactoes/5
         [ResponseType(typeof(FormasContacto))]
         public IHttpActionResult GetFormasContacto(int id)
         {
-            FormasContacto formasContacto = db.FormasContactoes.Find(id);
+            FormasContacto formasContacto = db.FormasContactoes.Where(i => i.FormasContactoID == id).
+                Include(e => e.TipoFormaContacto).Include(g => g.GrupoEmpresarial).FirstOrDefault();
             if (formasContacto == null)
             {
                 return NotFound();
@@ -49,7 +72,7 @@ namespace ApiProyectoKPI.Controllers
             {
                 return BadRequest();
             }
-
+            formasContacto.Prospecto = null;
             db.Entry(formasContacto).State = EntityState.Modified;
 
             try
@@ -79,7 +102,18 @@ namespace ApiProyectoKPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
+            formasContacto.TipoFormaContacto = db.TipoFormaContactoes.Find(formasContacto.TipoFormaContacto.TipoFormaContactoID);
+            if (formasContacto.GrupoEmpresarial == null )
+            {
+                formasContacto.GrupoEmpresarial = null;
+            }
+            else
+            {
+                formasContacto.GrupoEmpresarial = db.GrupoEmpresarials.Find(formasContacto.GrupoEmpresarial.GrupoEmpresarialID);
+            }
+            formasContacto.Prospecto = db.Prospectoes.Find(formasContacto.Prospecto.ProspectoID);
+            //db.Configuration.AutoDetectChangesEnabled = false;
             db.FormasContactoes.Add(formasContacto);
             db.SaveChanges();
 
