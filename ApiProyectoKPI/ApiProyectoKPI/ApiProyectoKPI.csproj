@@ -195,6 +195,7 @@
     <Compile Include="Models\ParametroKPI.cs" />
     <Compile Include="Models\Permiso.cs" />
     <Compile Include="Models\Prospecto.cs" />
+    <Compile Include="Models\RegistroMercadeo.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Seguimiento.cs" />
     <Compile Include="Models\TipoFormaContacto.cs" />

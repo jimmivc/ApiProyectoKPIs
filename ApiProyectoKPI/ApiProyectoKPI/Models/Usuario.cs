@@ -18,8 +18,8 @@ namespace ApiProyectoKPI.Models
         public string Apellidos { get; set; }
         public string Correo { get; set; }
         public string Contrasena { get; set; }
+        public int Cedula { get; set; }
         public bool IsActivo { get; set; }
-       // [Required]
         public Rol Rol { get; set; }
 
     }

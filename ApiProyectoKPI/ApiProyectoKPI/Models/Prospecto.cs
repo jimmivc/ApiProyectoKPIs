@@ -31,7 +31,7 @@ namespace ApiProyectoKPI.Models
         public bool IsInscritoPromociones { get; set; }
         public string LugarEstudioAnterior { get; set; }
         public string LugarTrabajo { get; set; }
-        public string IsHabilitado { get; set; }
+        public bool IsHabilitado { get; set; }
         public Usuario Usuario { get; set; }
         [JsonIgnore]
         public ICollection<FormasContacto> FormasContacto { get; set; }
