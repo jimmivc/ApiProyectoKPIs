@@ -19,7 +19,7 @@ namespace ApiProyectoKPI.Models
         public string Correo { get; set; }
         public string Contrasena { get; set; }
         public bool IsActivo { get; set; }
-        [Required]
+       // [Required]
         public Rol Rol { get; set; }
 
     }
