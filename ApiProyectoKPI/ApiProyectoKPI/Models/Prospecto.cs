@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiProyectoKPI.Models
 {
@@ -33,10 +32,11 @@ namespace ApiProyectoKPI.Models
         public string LugarTrabajo { get; set; }
         public bool IsHabilitado { get; set; }
         public Usuario Usuario { get; set; }
-        [JsonIgnore]
-        public ICollection<FormasContacto> FormasContacto { get; set; }
-        [JsonIgnore]
-        public ICollection<AreaInteres> AreasInteres { get; set; }
+
+        [JsonProperty(propertyName:"FormasContacto")]
+        public ICollection<FormasContacto> FormasContactos { get; set; }
+        
+        public ICollection<AreaInteres> AreasIntereses { get; set; }
 
 
 
