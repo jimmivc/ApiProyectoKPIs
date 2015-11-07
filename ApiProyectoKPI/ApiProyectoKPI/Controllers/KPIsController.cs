@@ -40,6 +40,7 @@ namespace ApiProyectoKPI.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutKPI(int id, KPI kPI)
         {
+        
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -50,6 +51,55 @@ namespace ApiProyectoKPI.Controllers
                 return BadRequest();
             }
 
+            db.Entry(kPI).State = EntityState.Modified;
+
+            //KPI kpiModificado = db.KPIs.Where(b => b.KPIID == id).Include(b => b.Parametro).FirstOrDefault();
+            //List<DetalleFormula> formulas = kPI.Formula.ToList<DetalleFormula>();
+            //List<DetalleFormula> ids = kpiModificado.Formula.ToList<DetalleFormula>();
+
+            //DetalleFormulasController formulaController = new DetalleFormulasController();
+
+            //for (int i = 0; i < kpiModificado.Formula.Count; i++){
+            //    formula.DeleteDetalleFormula(ids[i].DetalleFormulaID);
+            //}
+            //for (int i = 0; i < kPI.Formula.Count; i++)
+            //{
+            //    formulaController.PutDetalleFormula()
+            //    formulas[i].KPI = kPI;
+            //    formula.PostDetalleFormula(formulas[i]);
+            //}
+            //kPI.Formula = formulas;
+            //kPI.Parametro.ParametroKPIID = kpiModificado.Parametro.ParametroKPIID;
+            //kPI.Formula = null;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!KPIExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.OK);
+        }
+
+        // PUT: api/KPIs/5
+        [HttpPut]
+        [Route("api/KPIs/deshabilitar/{id}")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult DeshabilitarKPI(int id)
+        {
+
+            KPI kPI = db.KPIs.Where(b=>b.KPIID == id).Include(b=>b.Parametro).FirstOrDefault();
+            kPI.Estado = false;
             db.Entry(kPI).State = EntityState.Modified;
 
             //KPI kpiModificado = db.KPIs.Where(b => b.KPIID == id).Include(b => b.Parametro).FirstOrDefault();
@@ -135,5 +185,6 @@ namespace ApiProyectoKPI.Controllers
         {
             return db.KPIs.Count(e => e.KPIID == id) > 0;
         }
+
     }
 }
