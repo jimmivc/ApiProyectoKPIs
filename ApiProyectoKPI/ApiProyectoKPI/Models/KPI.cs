@@ -64,6 +64,8 @@ namespace ApiProyectoKPI.Models
                         }
                         result += "resultado = ";
                         result += aplicarFormula(datos,formula);
+                        result += calcularColorResultado(aplicarFormula(datos, formula));
+
                     }
                 }
             }
@@ -72,30 +74,31 @@ namespace ApiProyectoKPI.Models
 
         private double aplicarFormula(List<double> datos, List<DetalleFormula> formula)
         {
-            double resultado = 0;
-            for (int i = 0; i < formula.Count-2; i++)
+            int indiceDato = 0;
+            double resultado = datos[indiceDato++];
+            for (int i = 0; i < formula.Count; i++)
             {
                 if(formula[i].TipoDato.Equals("operador")){
                     switch (formula[i].DescCampoOperador)
                     {
                         case "+":
-                            resultado += datos[i-1] + datos[i];
+                            resultado += datos[indiceDato];
                             break;
                         case "-":
-                            resultado += datos[i-1] - datos[i];
+                            resultado -= datos[indiceDato];
                             break;
                         case "*":
-                            resultado += datos[i-1] * datos[i];
+                            resultado *= datos[indiceDato];
                             break;
                         case "/":
-                            resultado += datos[i-1] / datos[i];
+                            resultado /= datos[indiceDato];
                             break;
                         default:
                             break;
                     }
+                    indiceDato++;
                 }
             }
-
             return resultado;
         }
 
