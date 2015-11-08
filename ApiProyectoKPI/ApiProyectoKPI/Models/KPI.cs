@@ -26,5 +26,9 @@ namespace ApiProyectoKPI.Models
         public ICollection<DetalleFormula> Formula { get; set; }
         
         public ICollection<Rol> RolesAsignados { get; set; }
+
+        public String calcularResultados(List<RegistroMercadeo> registros, List<Usuario> usuarios){
+            return "gg";
+        }
     }
 }
