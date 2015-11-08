@@ -221,7 +221,7 @@ namespace ApiProyectoKPI.Controllers
 
         [HttpGet]
         [Route("api/KPIs/resultados/{idRol}/{idRegistro}")]
-        public IQueryable<RegistroMercadeo> resultadosKPI(int idRol, int idRegistro)
+        public List<string> resultadosKPI(int idRol, int idRegistro)
         {
             List<string> datos = new List<string>();
 
@@ -231,15 +231,17 @@ namespace ApiProyectoKPI.Controllers
             //colocar la hora 12:00 en todos los registros
             var registros = db.RegistrosMercadeo.Where(b=>b.fechaHora == registro.fechaHora);
         
-            var kp = indicadoresAsignados(idRol);
-            List<KPI> kpis = kp.ToList<KPI>();
-
-            foreach (KPI k in kpis)
+            var kp = indicadoresAsignados(idRol).Include(b=>b.Parametro).Include(b=>b.Formula);
+            List<KPI> kpis = kp.ToList();
+            if (registro != null && usuarios != null)
             {
-                datos.Add(k.calcularResultados(registros.ToList<RegistroMercadeo>(),usuarios.ToList<Usuario>());
+                foreach (KPI k in kpis)
+                {
+                    datos.Add(k.calcularResultados(registros.ToList<RegistroMercadeo>(), usuarios.ToList<Usuario>()));
+                }
             }
 
-            return registros;
+            return datos;
         }
     }
 }
