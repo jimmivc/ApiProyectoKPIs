@@ -186,5 +186,37 @@ namespace ApiProyectoKPI.Controllers
             return db.KPIs.Count(e => e.KPIID == id) > 0;
         }
 
+        [HttpGet]
+        [Route("api/KPIs/asignar/{idKPI}/{idRol}")]
+        public HttpResponseMessage asignarKPI(int idKPI, int idRol){
+            KPI kpi = db.KPIs.Find(idKPI);
+            Rol rol = db.Rols.Find(idRol);
+
+            if (kpi != null && rol != null)
+            {
+                rol.IndicadoresKPI.Add(kpi);
+                kpi.RolesAsignados.Add(rol);
+                
+                try{
+                db.SaveChanges();
+                }
+                catch (DbUpdateException up)
+                {
+                    
+                    return Request.CreateResponse<string>(HttpStatusCode.InternalServerError,"El indicador ya fue asignado al rol seleccionado"); 
+                }
+                
+            }
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        [Route("api/KPIs/indicadoresAsignados/{idRol}")]
+        public IQueryable<KPI> asignarKPI(int idRol)
+        {
+            var kpis = db.KPIs
+                             .Where( x=> x.RolesAsignados.Any(r => idRol == (r.RolID)));
+            return kpis;   
+        }
     }
 }
