@@ -27,7 +27,7 @@ namespace ApiProyectoKPI.Controllers
         [ResponseType(typeof(Usuario))]
         public IHttpActionResult GetUsuario(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
+            Usuario usuario = db.Usuarios.Where(b => b.UsuarioID == id).Include(b => b.Rol).FirstOrDefault();
             if (usuario == null)
             {
                 return NotFound();
@@ -85,7 +85,9 @@ namespace ApiProyectoKPI.Controllers
             db.Usuarios.Add(usuario);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = usuario.UsuarioID }, usuario);
+            return StatusCode(HttpStatusCode.OK);
+
+            //return CreatedAtRoute("DefaultApi", new { id = usuario.UsuarioID }, usuario);
         }
 
         // DELETE: api/Usuarios/5
