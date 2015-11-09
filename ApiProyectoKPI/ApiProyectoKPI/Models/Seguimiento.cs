@@ -14,6 +14,7 @@ namespace ApiProyectoKPI.Models
 
         public int SeguimientoID{ get; set; }
         public DateTime FechaHora { get; set; }
+        public DateTime FechaSeguimiento { get; set; }
         public Prospecto Prospecto { get; set; }
         public string DescSeguimiento { get; set; }
         public int NumeroLlamadas { get; set; }

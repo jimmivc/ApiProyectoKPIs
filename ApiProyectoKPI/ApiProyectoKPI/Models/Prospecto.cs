@@ -35,7 +35,7 @@ namespace ApiProyectoKPI.Models
 
         [JsonProperty(propertyName:"FormasContacto")]
         public ICollection<FormasContacto> FormasContactos { get; set; }
-        
+        public ICollection<Seguimiento> Seguimientos { get; set; }
         public ICollection<AreaInteres> AreasIntereses { get; set; }
 
 

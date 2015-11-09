@@ -72,6 +72,15 @@ namespace ApiProyectoKPI.Controllers
             {
                 return BadRequest();
             }
+            formasContacto.TipoFormaContacto = db.TipoFormaContactoes.Find(formasContacto.TipoFormaContacto.TipoFormaContactoID);
+            if (formasContacto.GrupoEmpresarial == null)
+            {
+                formasContacto.GrupoEmpresarial = null;
+            }
+            else
+            {
+                formasContacto.GrupoEmpresarial = db.GrupoEmpresarials.Find(formasContacto.GrupoEmpresarial.GrupoEmpresarialID);
+            }
             formasContacto.Prospecto = null;
             db.Entry(formasContacto).State = EntityState.Modified;
 
@@ -91,7 +100,7 @@ namespace ApiProyectoKPI.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return CreatedAtRoute("DefaultApi", new { id = formasContacto.FormasContactoID }, formasContacto);
         }
 
         // POST: api/FormasContactoes

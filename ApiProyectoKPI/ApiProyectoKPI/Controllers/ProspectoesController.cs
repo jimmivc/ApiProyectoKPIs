@@ -83,6 +83,35 @@ namespace ApiProyectoKPI.Controllers
             }
         }
 
+        //GET: api/Prospectoes/5
+        [Route("api/Prospectoes/Seguimiento/{id}")]
+        [ResponseType(typeof(Prospecto))]
+        public IHttpActionResult GetProspectoSeguimiento(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                Prospecto prospecto = db.Prospectoes.Where(i => i.ProspectoID == id).FirstOrDefault();
+                db.Entry(prospecto).Collection(f => f.Seguimientos).Load();
+                foreach (Seguimiento f in prospecto.Seguimientos)
+                {
+                    Seguimiento seguimientoConUsuario = db.Seguimientoes.Where(i => i.SeguimientoID == f.SeguimientoID).
+                                                  Include(t => t.Usuario).FirstOrDefault();
+                    f.Usuario = seguimientoConUsuario.Usuario;
+                }
+                if (prospecto == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(prospecto);
+            }
+        }
+
+
         // GET: api/Prospectoes/iden/id
         [Route("api/Prospectoes/iden/{id}")]
         [ResponseType(typeof(Prospecto))]
@@ -150,7 +179,7 @@ namespace ApiProyectoKPI.Controllers
             //prospecto.Evento = null;
             
             prospecto.Evento = db.Eventoes.Find(prospecto.Evento.EventoID);
-            db.Configuration.AutoDetectChangesEnabled = false;
+            //db.Configuration.AutoDetectChangesEnabled = false;
             db.Prospectoes.Add(prospecto);
             
             db.SaveChanges();

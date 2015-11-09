@@ -27,7 +27,9 @@ namespace ApiProyectoKPI.Controllers
         [ResponseType(typeof(Seguimiento))]
         public IHttpActionResult GetSeguimiento(int id)
         {
-            Seguimiento seguimiento = db.Seguimientoes.Find(id);
+            Seguimiento seguimiento = db.Seguimientoes.Where(i => i.SeguimientoID == id).Include(e => e.Usuario).FirstOrDefault();
+            //db.Entry(prospecto).Collection(f => f.FormasContactos).Load();
+            
             if (seguimiento == null)
             {
                 return NotFound();
@@ -79,7 +81,8 @@ namespace ApiProyectoKPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
+            seguimiento.Prospecto = db.Prospectoes.Find(seguimiento.Prospecto.ProspectoID);
             db.Seguimientoes.Add(seguimiento);
             db.SaveChanges();
 
