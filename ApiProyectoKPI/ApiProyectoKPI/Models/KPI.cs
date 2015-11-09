@@ -27,45 +27,57 @@ namespace ApiProyectoKPI.Models
         
         public ICollection<Rol> RolesAsignados { get; set; }
 
-        public String calcularResultados(List<RegistroMercadeo> registros, List<Usuario> usuarios){
-            string result = "";
+        public List<string> calcularResultados(List<RegistroMercadeo> registros, List<Usuario> usuarios){
+            List<string> result = new List<string>();
 
-            foreach(Usuario user in usuarios){
-               foreach (RegistroMercadeo registro in registros)
-               {
-                   if(registro.usuario.UsuarioID == user.UsuarioID)
-                    if (isCalculoCampoUnico())
+            foreach (Usuario user in usuarios)
+            {
+                foreach (RegistroMercadeo registro in registros)
+                {
+                    if (registro.usuario != null)
                     {
-                        double datoCampo = getDatoCampo(registro,0);
-                        
-                        result += datoCampo.ToString();
-                        result += calcularColorResultado(datoCampo);
-                        result += "/n";
+                        if (registro.usuario.UsuarioID == user.UsuarioID)
+                        {
+                            result.Add(DescKpi);
+                            result.Add(user.Nombre + " " + user.Apellidos);
+                            if (isCalculoCampoUnico())
+                            {
+                                double datoCampo = getDatoCampo(registro, 0);
+
+                                result.Add(datoCampo.ToString());
+                                result.Add(calcularColorResultado(datoCampo));
+
+                            }
+                            else
+                            {
+
+                                List<double> datos = new List<double>();
+                                List<DetalleFormula> formula = Formula.ToList<DetalleFormula>();
+
+                                for (int i = 0; i < Formula.Count; i++)
+                                {
+                                    if (formula[i].Tabla != null)
+                                    {
+
+                                        //result.Add(getDatoCampo(registro, i).ToString());
+                                        datos.Add(getDatoCampo(registro, i));
+                                    }
+                                    else if (formula[i].Valor != 0)
+                                    {
+                                        //result.Add(formula[i].Valor.Value.ToString());
+                                        datos.Add(formula[i].Valor.Value);
+                                    }
+                                }
+
+                                result.Add(aplicarFormula(datos, formula).ToString());
+                                result.Add(calcularColorResultado(aplicarFormula(datos, formula)));
+
+                            }
+                        }
                     }
                     else
                     {
-                        
-                        List<double> datos = new List<double>();
-                        List<DetalleFormula> formula = Formula.ToList<DetalleFormula>();
-
-                        for (int i = 0; i < Formula.Count; i++)
-                        {
-                            if (formula[i].Tabla != null)
-                            {
-
-                                result += getDatoCampo(registro,i);
-                                datos.Add(getDatoCampo(registro, i));
-                            }
-                            else if(formula[i].Valor !=0)
-                            {
-                                result += formula[i].Valor.Value;
-                                datos.Add(formula[i].Valor.Value);
-                            }
-                        }
-                        result += "resultado = ";
-                        result += aplicarFormula(datos,formula);
-                        result += calcularColorResultado(aplicarFormula(datos, formula));
-
+                        result.Add( "ignorar");
                     }
                 }
             }
@@ -127,22 +139,22 @@ namespace ApiProyectoKPI.Models
             double dato;
             switch (formula[indiceFormula].Tabla.ToLower())
             {
-                case "totalllamadas":
+                case "llamadas":
                     dato = registro.TotalLlamadas;
                     break;
-                case "totalllamadasefectivas":
+                case "llamadas efectivas":
                     dato = registro.TotalLlamadasEfectivas;
                     break;
-                case "promdurallamadasefectivas":
+                case "promedio duracion efectivas":
                     dato = registro.PromDuraLlamadasEfectivas;
                     break;
-                case "duracionllamadaefectiva":
+                case "duracion llamadas efectivas":
                     dato = registro.DuracionLlamadaEfectiva;
                     break;
-                case "cantidadventas":
+                case "cantidad ventas":
                     dato = registro.CantidadVentas;
                     break;
-                case "montototalventas":
+                case "monto ventas":
                     dato = registro.MontoTotalVentas;
                     break;
                 default:
