@@ -212,11 +212,36 @@ namespace ApiProyectoKPI.Controllers
 
         [HttpGet]
         [Route("api/KPIs/indicadoresAsignados/{idRol}")]
-        public IQueryable<KPI> asignarKPI(int idRol)
+        public IQueryable<KPI> indicadoresAsignados(int idRol)
         {
             var kpis = db.KPIs
-                             .Where( x=> x.RolesAsignados.Any(r => idRol == (r.RolID)));
+                             .Where( x=> x.RolesAsignados.Any(r => idRol == (r.RolID))).Where(b=>b.Estado == true);
             return kpis;   
+        }
+
+        [HttpGet]
+        [Route("api/KPIs/resultados/{idRol}/{idRegistro}")]
+        public List<string> resultadosKPI(int idRol, int idRegistro)
+        {
+            List<string> datos = new List<string>();
+
+            var usuarios = db.Usuarios
+                .Where(b=>b.Rol.RolID == idRol);
+            var registro = db.RegistrosMercadeo.Find(idRegistro);
+            //colocar la hora 12:00 en todos los registros
+            var registros = db.RegistrosMercadeo.Where(b=>b.fechaHora == registro.fechaHora);
+        
+            var kp = indicadoresAsignados(idRol).Include(b=>b.Parametro).Include(b=>b.Formula);
+            List<KPI> kpis = kp.ToList();
+            if (registro != null && usuarios != null)
+            {
+                foreach (KPI k in kpis)
+                {
+                    datos.Add(k.calcularResultados(registros.ToList<RegistroMercadeo>(), usuarios.ToList<Usuario>()));
+                }
+            }
+
+            return datos;
         }
     }
 }
