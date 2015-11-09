@@ -36,6 +36,20 @@ namespace ApiProyectoKPI.Controllers
             return Ok(usuario);
         }
 
+        // GET: api/Usuarios/5
+        [Route("api/Usuarios/correo/{id}")]
+        [ResponseType(typeof(Usuario))]
+        public IHttpActionResult GetUsuarioCorreo(String id)
+        {
+            Usuario usuario = db.Usuarios.Where(b => b.Correo == id).FirstOrDefault();
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(usuario);
+        }
+
         // PUT: api/Usuarios/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutUsuario(int id, Usuario usuario)
