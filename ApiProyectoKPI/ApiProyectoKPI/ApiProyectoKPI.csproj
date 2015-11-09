@@ -177,6 +177,7 @@
     <Compile Include="Controllers\ParametroKPIsController.cs" />
     <Compile Include="Controllers\PermisoesController.cs" />
     <Compile Include="Controllers\ProspectoesController.cs" />
+    <Compile Include="Controllers\RegistroMercadeosController.cs" />
     <Compile Include="Controllers\RolsController.cs" />
     <Compile Include="Controllers\SeguimientoesController.cs" />
     <Compile Include="Controllers\TipoFormaContactoesController.cs" />

@@ -186,5 +186,62 @@ namespace ApiProyectoKPI.Controllers
             return db.KPIs.Count(e => e.KPIID == id) > 0;
         }
 
+        [HttpGet]
+        [Route("api/KPIs/asignar/{idKPI}/{idRol}")]
+        public HttpResponseMessage asignarKPI(int idKPI, int idRol){
+            KPI kpi = db.KPIs.Find(idKPI);
+            Rol rol = db.Rols.Find(idRol);
+
+            if (kpi != null && rol != null)
+            {
+                rol.IndicadoresKPI.Add(kpi);
+                kpi.RolesAsignados.Add(rol);
+                
+                try{
+                db.SaveChanges();
+                }
+                catch (DbUpdateException up)
+                {
+                    
+                    return Request.CreateResponse<string>(HttpStatusCode.InternalServerError,"El indicador ya fue asignado al rol seleccionado"); 
+                }
+                
+            }
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        [Route("api/KPIs/indicadoresAsignados/{idRol}")]
+        public IQueryable<KPI> indicadoresAsignados(int idRol)
+        {
+            var kpis = db.KPIs
+                             .Where(x => x.RolesAsignados.Any(r => idRol == (r.RolID))).Where(b=>b.Estado == true);
+            return kpis;   
+        }
+
+        [HttpGet]
+        [Route("api/KPIs/resultados/{idRol}/{idRegistro}")]
+        public List<List<string>> resultadosKPI(int idRol, int idRegistro)
+        {
+            List<List<string>> datos = new List<List<string>>();
+
+            var usuarios = db.Usuarios
+                .Where(b=>b.Rol.RolID == idRol);
+            var registro = db.RegistrosMercadeo.Find(idRegistro);
+            //colocar la hora 12:00 en todos los registros
+            var registros = db.RegistrosMercadeo.Where(b=>b.fechaHora == registro.fechaHora);
+        
+            var kp = indicadoresAsignados(idRol).Include(b=>b.Parametro).Include(b=>b.Formula);
+            List<KPI> kpis = kp.ToList();
+            if (registro != null && usuarios != null)
+            {
+                foreach (KPI k in kpis)
+                {
+                    datos.Add(k.calcularResultados(registros.ToList<RegistroMercadeo>(), usuarios.ToList<Usuario>()));
+                }
+            }
+
+            return datos;
+        }
     }
 }
