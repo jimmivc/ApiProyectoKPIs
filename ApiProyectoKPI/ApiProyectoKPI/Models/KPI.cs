@@ -75,10 +75,7 @@ namespace ApiProyectoKPI.Models
                             }
                         }
                     }
-                    else
-                    {
-                        result.Add( "ignorar");
-                    }
+                    
                 }
             }
             return result;
