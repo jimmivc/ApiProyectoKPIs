@@ -127,22 +127,22 @@ namespace ApiProyectoKPI.Models
             double dato;
             switch (formula[indiceFormula].Tabla.ToLower())
             {
-                case "totalllamadas":
+                case "llamadas":
                     dato = registro.TotalLlamadas;
                     break;
-                case "totalllamadasefectivas":
+                case "llamadas efectivas":
                     dato = registro.TotalLlamadasEfectivas;
                     break;
-                case "promdurallamadasefectivas":
+                case "promedio duracion efectivas":
                     dato = registro.PromDuraLlamadasEfectivas;
                     break;
-                case "duracionllamadaefectiva":
+                case "duracion llamadas efectivas":
                     dato = registro.DuracionLlamadaEfectiva;
                     break;
-                case "cantidadventas":
+                case "cantidad ventas":
                     dato = registro.CantidadVentas;
                     break;
-                case "montototalventas":
+                case "monto ventas":
                     dato = registro.MontoTotalVentas;
                     break;
                 default:
