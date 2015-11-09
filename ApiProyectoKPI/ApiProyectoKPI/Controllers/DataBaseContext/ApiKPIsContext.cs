@@ -12,7 +12,7 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
         public ApiKPIsContext (): base("name=KPIsConnectionString")
         {
             this.Configuration.LazyLoadingEnabled = false;
-            Database.SetInitializer<ApiKPIsContext>(new  DropCreateDatabaseIfModelChanges<ApiKPIsContext>());
+            //Database.SetInitializer<ApiKPIsContext>(new  DropCreateDatabaseIfModelChanges<ApiKPIsContext>());
         }
 
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.AreaInteres> AreaInteres { get; set; }
