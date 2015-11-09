@@ -40,6 +40,7 @@ namespace ApiProyectoKPI.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutUsuario(int id, Usuario usuario)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -68,7 +69,7 @@ namespace ApiProyectoKPI.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.OK);
         }
 
         // POST: api/Usuarios
