@@ -116,7 +116,6 @@ namespace ApiProyectoKPI.Controllers
             return db.RegistrosMercadeo.Count(e => e.RegistroMercadeoID == id) > 0;
         }
 
-        // GET: api/RegistroMercadeos
         [HttpGet]
         [Route("api/RegistroMercadeos/registrosRol/{idRol}")]
         public IQueryable<RegistroMercadeo> RegistrosMercadeo(int idRol)

@@ -27,8 +27,8 @@ namespace ApiProyectoKPI.Models
         
         public ICollection<Rol> RolesAsignados { get; set; }
 
-        public String calcularResultados(List<RegistroMercadeo> registros, List<Usuario> usuarios){
-            string result = "";
+        public List<string> calcularResultados(List<RegistroMercadeo> registros, List<Usuario> usuarios){
+            List<string> result = new List<string>();
 
             foreach (Usuario user in usuarios)
             {
@@ -36,15 +36,17 @@ namespace ApiProyectoKPI.Models
                 {
                     if (registro.usuario != null)
                     {
-                        result += user.Nombre + " " + user.Apellidos + " \n id: " + user.UsuarioID;
                         if (registro.usuario.UsuarioID == user.UsuarioID)
+                        {
+                            result.Add(DescKpi);
+                            result.Add(user.Nombre + " " + user.Apellidos);
                             if (isCalculoCampoUnico())
                             {
                                 double datoCampo = getDatoCampo(registro, 0);
 
-                                result += datoCampo.ToString();
-                                result += calcularColorResultado(datoCampo);
-                                result += "/n";
+                                result.Add(datoCampo.ToString());
+                                result.Add(calcularColorResultado(datoCampo));
+
                             }
                             else
                             {
@@ -57,24 +59,25 @@ namespace ApiProyectoKPI.Models
                                     if (formula[i].Tabla != null)
                                     {
 
-                                        result += getDatoCampo(registro, i);
+                                        //result.Add(getDatoCampo(registro, i).ToString());
                                         datos.Add(getDatoCampo(registro, i));
                                     }
                                     else if (formula[i].Valor != 0)
                                     {
-                                        result += formula[i].Valor.Value;
+                                        //result.Add(formula[i].Valor.Value.ToString());
                                         datos.Add(formula[i].Valor.Value);
                                     }
                                 }
-                                result += "resultado = ";
-                                result += aplicarFormula(datos, formula);
-                                result += calcularColorResultado(aplicarFormula(datos, formula));
+
+                                result.Add(aplicarFormula(datos, formula).ToString());
+                                result.Add(calcularColorResultado(aplicarFormula(datos, formula)));
 
                             }
+                        }
                     }
                     else
                     {
-                        result += "ignorar";
+                        result.Add( "ignorar");
                     }
                 }
             }

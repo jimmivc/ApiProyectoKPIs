@@ -215,7 +215,7 @@ namespace ApiProyectoKPI.Controllers
         public IQueryable<KPI> indicadoresAsignados(int idRol)
         {
             var kpis = db.KPIs
-                             .Where(x => x.RolesAsignados.Any(r => idRol == (r.RolID)));//.Where(b=>b.Estado == true);
+                             .Where(x => x.RolesAsignados.Any(r => idRol == (r.RolID))).Where(b=>b.Estado == true);
             return kpis;   
         }
 
@@ -237,14 +237,10 @@ namespace ApiProyectoKPI.Controllers
             {
                 foreach (KPI k in kpis)
                 {
-                    //datos.Add(k.calcularResultados(registros.ToList<RegistroMercadeo>(), usuarios.ToList<Usuario>()));
+                    datos.Add(k.calcularResultados(registros.ToList<RegistroMercadeo>(), usuarios.ToList<Usuario>()));
                 }
             }
 
-            List<string> resultados = new List<string>();
-            resultados.Add("Nombre:Jimmi");
-            resultados.Add("Apellido:Vila");
-            datos.Add(resultados);
             return datos;
         }
     }
