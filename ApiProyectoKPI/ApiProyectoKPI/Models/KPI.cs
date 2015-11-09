@@ -30,42 +30,51 @@ namespace ApiProyectoKPI.Models
         public String calcularResultados(List<RegistroMercadeo> registros, List<Usuario> usuarios){
             string result = "";
 
-            foreach(Usuario user in usuarios){
-               foreach (RegistroMercadeo registro in registros)
-               {
-                   if(registro.usuario.UsuarioID == user.UsuarioID)
-                    if (isCalculoCampoUnico())
+            foreach (Usuario user in usuarios)
+            {
+                foreach (RegistroMercadeo registro in registros)
+                {
+                    if (registro.usuario != null)
                     {
-                        double datoCampo = getDatoCampo(registro,0);
-                        
-                        result += datoCampo.ToString();
-                        result += calcularColorResultado(datoCampo);
-                        result += "/n";
+                        result += user.Nombre + " " + user.Apellidos + " \n id: " + user.UsuarioID;
+                        if (registro.usuario.UsuarioID == user.UsuarioID)
+                            if (isCalculoCampoUnico())
+                            {
+                                double datoCampo = getDatoCampo(registro, 0);
+
+                                result += datoCampo.ToString();
+                                result += calcularColorResultado(datoCampo);
+                                result += "/n";
+                            }
+                            else
+                            {
+
+                                List<double> datos = new List<double>();
+                                List<DetalleFormula> formula = Formula.ToList<DetalleFormula>();
+
+                                for (int i = 0; i < Formula.Count; i++)
+                                {
+                                    if (formula[i].Tabla != null)
+                                    {
+
+                                        result += getDatoCampo(registro, i);
+                                        datos.Add(getDatoCampo(registro, i));
+                                    }
+                                    else if (formula[i].Valor != 0)
+                                    {
+                                        result += formula[i].Valor.Value;
+                                        datos.Add(formula[i].Valor.Value);
+                                    }
+                                }
+                                result += "resultado = ";
+                                result += aplicarFormula(datos, formula);
+                                result += calcularColorResultado(aplicarFormula(datos, formula));
+
+                            }
                     }
                     else
                     {
-                        
-                        List<double> datos = new List<double>();
-                        List<DetalleFormula> formula = Formula.ToList<DetalleFormula>();
-
-                        for (int i = 0; i < Formula.Count; i++)
-                        {
-                            if (formula[i].Tabla != null)
-                            {
-
-                                result += getDatoCampo(registro,i);
-                                datos.Add(getDatoCampo(registro, i));
-                            }
-                            else if(formula[i].Valor !=0)
-                            {
-                                result += formula[i].Valor.Value;
-                                datos.Add(formula[i].Valor.Value);
-                            }
-                        }
-                        result += "resultado = ";
-                        result += aplicarFormula(datos,formula);
-                        result += calcularColorResultado(aplicarFormula(datos, formula));
-
+                        result += "ignorar";
                     }
                 }
             }
