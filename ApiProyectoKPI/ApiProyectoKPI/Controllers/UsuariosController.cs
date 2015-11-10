@@ -37,11 +37,11 @@ namespace ApiProyectoKPI.Controllers
         }
 
         // GET: api/Usuarios/5
-        [Route("api/Usuarios/correo/{id}")]
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult GetUsuarioCorreo(String id)
+        [HttpGet]
+        [Route("api/Usuarios/correo/{id}/{a}")]
+        public IHttpActionResult GetUsuarioCorreo(string id)
         {
-            Usuario usuario = db.Usuarios.Where(b => b.Correo == id).FirstOrDefault();
+            Usuario usuario = db.Usuarios.Where(b => b.Correo.Equals(id)).FirstOrDefault();
             if (usuario == null)
             {
                 return NotFound();

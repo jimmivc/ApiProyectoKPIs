@@ -19,7 +19,8 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
             
             foreach (Rol rol in defaultRols)
                 context.Rols.Add(rol);
-
+            context.Usuarios.Add(new Usuario(){Nombre = "Jimmi", Apellidos = "Vila", Cedula = 160400 ,Correo = "jvilac@ucenfotec.ac.cr",Contrasena = "tXFOeepeTOFiXdv5UUVUBA==", IsActivo = true, Rol = context.Rols.Find(1)});
+            
             base.Seed(context);
         }
     }
