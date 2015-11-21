@@ -16,13 +16,32 @@ namespace ApiProyectoKPI.Controllers
     public class SeguimientoesController : ApiController
     {
         private ApiKPIsContext db = new ApiKPIsContext();
-
+        /// <summary>
+        /// GetSeguimientoes.  
+        /// Obtener una lista de seguimientos.
+        /// </summary>
+        /// <returns>Respuesta con una lista de seguimientos.</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Christian Ulloa Tosso </item>
+        /// <item>07/11/2015 - Creación</item>
+        /// </list></para></remarks>
         // GET: api/Seguimientoes
         public IQueryable<Seguimiento> GetSeguimientoes()
         {
             return db.Seguimientoes;
         }
-
+        /// <summary>
+        /// GetSeguimiento.  
+        /// Obtener un seguimiento con sus objetos internos.
+        /// </summary>
+        /// <param name="Id">parámetro de tipo Integer.</param>
+        /// <returns>Respuesta con un objeto seguimiento.</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Christian Ulloa Tosso </item>
+        /// <item>07/11/2015 - Creación</item>
+        /// </list></para></remarks>
         // GET: api/Seguimientoes/5
         [ResponseType(typeof(Seguimiento))]
         public IHttpActionResult GetSeguimiento(int id)
@@ -37,7 +56,18 @@ namespace ApiProyectoKPI.Controllers
 
             return Ok(seguimiento);
         }
-
+        /// <summary>
+        /// PutSeguimiento.  
+        /// Modifica un seguimiento existente.
+        /// </summary>
+        /// <param name="Id">parámetro de tipo Integer.</param>
+        /// <param name="seguimiento">parámetro de tipo Seguimiento.</param>
+        /// <returns>Respuesta con un objeto seguimiento.</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Christian Ulloa Tosso </item>
+        /// <item>07/11/2015 - Creación</item>
+        /// </list></para></remarks>
         // PUT: api/Seguimientoes/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutSeguimiento(int id, Seguimiento seguimiento)
@@ -72,7 +102,17 @@ namespace ApiProyectoKPI.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-
+        /// <summary>
+        /// PostSeguimiento.  
+        /// Registra un nuevo seguimiento.
+        /// </summary>
+        /// <param name="seguimiento">parámetro de tipo Seguimiento.</param>
+        /// <returns>Respuesta con un objeto seguimiento.</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Christian Ulloa Tosso </item>
+        /// <item>07/11/2015 - Creación</item>
+        /// </list></para></remarks>
         // POST: api/Seguimientoes
         [ResponseType(typeof(Seguimiento))]
         public IHttpActionResult PostSeguimiento(Seguimiento seguimiento)
@@ -88,7 +128,17 @@ namespace ApiProyectoKPI.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = seguimiento.SeguimientoID }, seguimiento);
         }
-
+        /// <summary>
+        /// DeleteSeguimiento.  
+        /// Elimina un seguimiento existente.
+        /// </summary>
+        /// <param name="Id">parámetro de tipo Integer.</param>
+        /// <returns>Respuesta con un objeto seguimiento.</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Christian Ulloa Tosso </item>
+        /// <item>07/11/2015 - Creación</item>
+        /// </list></para></remarks>
         // DELETE: api/Seguimientoes/5
         [ResponseType(typeof(Seguimiento))]
         public IHttpActionResult DeleteSeguimiento(int id)

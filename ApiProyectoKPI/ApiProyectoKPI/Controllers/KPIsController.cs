@@ -52,26 +52,7 @@ namespace ApiProyectoKPI.Controllers
             }
 
             db.Entry(kPI).State = EntityState.Modified;
-
-            //KPI kpiModificado = db.KPIs.Where(b => b.KPIID == id).Include(b => b.Parametro).FirstOrDefault();
-            //List<DetalleFormula> formulas = kPI.Formula.ToList<DetalleFormula>();
-            //List<DetalleFormula> ids = kpiModificado.Formula.ToList<DetalleFormula>();
-
-            //DetalleFormulasController formulaController = new DetalleFormulasController();
-
-            //for (int i = 0; i < kpiModificado.Formula.Count; i++){
-            //    formula.DeleteDetalleFormula(ids[i].DetalleFormulaID);
-            //}
-            //for (int i = 0; i < kPI.Formula.Count; i++)
-            //{
-            //    formulaController.PutDetalleFormula()
-            //    formulas[i].KPI = kPI;
-            //    formula.PostDetalleFormula(formulas[i]);
-            //}
-            //kPI.Formula = formulas;
-            //kPI.Parametro.ParametroKPIID = kpiModificado.Parametro.ParametroKPIID;
-            //kPI.Formula = null;
-
+            
             try
             {
                 db.SaveChanges();
@@ -101,26 +82,7 @@ namespace ApiProyectoKPI.Controllers
             KPI kPI = db.KPIs.Where(b=>b.KPIID == id).Include(b=>b.Parametro).FirstOrDefault();
             kPI.Estado = false;
             db.Entry(kPI).State = EntityState.Modified;
-
-            //KPI kpiModificado = db.KPIs.Where(b => b.KPIID == id).Include(b => b.Parametro).FirstOrDefault();
-            //List<DetalleFormula> formulas = kPI.Formula.ToList<DetalleFormula>();
-            //List<DetalleFormula> ids = kpiModificado.Formula.ToList<DetalleFormula>();
-
-            //DetalleFormulasController formulaController = new DetalleFormulasController();
-
-            //for (int i = 0; i < kpiModificado.Formula.Count; i++){
-            //    formula.DeleteDetalleFormula(ids[i].DetalleFormulaID);
-            //}
-            //for (int i = 0; i < kPI.Formula.Count; i++)
-            //{
-            //    formulaController.PutDetalleFormula()
-            //    formulas[i].KPI = kPI;
-            //    formula.PostDetalleFormula(formulas[i]);
-            //}
-            //kPI.Formula = formulas;
-            //kPI.Parametro.ParametroKPIID = kpiModificado.Parametro.ParametroKPIID;
-            //kPI.Formula = null;
-
+            
             try
             {
                 db.SaveChanges();
@@ -153,7 +115,7 @@ namespace ApiProyectoKPI.Controllers
             db.SaveChanges();
 
             return StatusCode(HttpStatusCode.OK);
-            //CreatedAtRoute("DefaultApi", new { id = kPI.KPIID }, kPI);
+            
         }
 
         // DELETE: api/KPIs/5
@@ -186,6 +148,18 @@ namespace ApiProyectoKPI.Controllers
             return db.KPIs.Count(e => e.KPIID == id) > 0;
         }
 
+        /// <summary>
+        /// asignarKPI
+        /// metodo encargado de relacionar un kpi con un rol
+        /// </summary>
+        /// <param name="idKPI">int</param>
+        /// <param name="idRol">int</param>
+        /// <returns>resultado de la consulta</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         [HttpGet]
         [Route("api/KPIs/asignar/{idKPI}/{idRol}")]
         public HttpResponseMessage asignarKPI(int idKPI, int idRol){
@@ -209,7 +183,17 @@ namespace ApiProyectoKPI.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.OK);
         }
-
+        /// <summary>
+        /// indicadoresAsignados
+        /// metodo encargado de obtener la lista de indicadores asignados a un rol
+        /// </summary>
+        /// <param name="idRol">int</param>
+        /// <returns>double</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         [HttpGet]
         [Route("api/KPIs/indicadoresAsignados/{idRol}")]
         public IQueryable<KPI> indicadoresAsignados(int idRol)
@@ -218,7 +202,18 @@ namespace ApiProyectoKPI.Controllers
                              .Where(x => x.RolesAsignados.Any(r => idRol == (r.RolID))).Where(b=>b.Estado == true);
             return kpis;   
         }
-
+        /// <summary>
+        /// resultadosKPI
+        /// metodo encargado de obtener el resultado de un indicador kpi
+        /// </summary>
+        /// <param name="idRol">int</param>
+        /// <param name="idRegistro">int</param>
+        /// <returns>double</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         [HttpGet]
         [Route("api/KPIs/resultados/{idRol}/{idRegistro}")]
         public List<List<string>> resultadosKPI(int idRol, int idRegistro)

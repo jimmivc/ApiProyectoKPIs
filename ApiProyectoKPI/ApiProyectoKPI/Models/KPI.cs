@@ -26,7 +26,17 @@ namespace ApiProyectoKPI.Models
         public ICollection<DetalleFormula> Formula { get; set; }
         
         public ICollection<Rol> RolesAsignados { get; set; }
-
+        /// <summary>
+        /// calcularResultados
+        /// metodo encargado de calcular los resultados kpi para los usuarios que pertenecen a un rol
+        /// </summary>
+        /// <param name="registros">Registros mercadeo</param>
+        /// <returns>List(Of String)</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         public List<string> calcularResultados(List<RegistroMercadeo> registros, List<Usuario> usuarios){
             List<string> result = new List<string>();
 
@@ -80,7 +90,18 @@ namespace ApiProyectoKPI.Models
             }
             return result;
         }
-
+        /// <summary>
+        /// aplicarFormula
+        /// metodo encargado de descomponer la formula y aplicarla
+        /// </summary>
+        /// <param name="datos">List<double></param>
+        /// <param name="formula">List<DetalleFormula></param>
+        /// <returns>double</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         private double aplicarFormula(List<double> datos, List<DetalleFormula> formula)
         {
             int indiceDato = 0;
@@ -110,7 +131,17 @@ namespace ApiProyectoKPI.Models
             }
             return resultado;
         }
-
+        /// <summary>
+        /// calcularColorResultado
+        /// metodo encargado de calcular el color resultado del kpi
+        /// </summary>
+        /// <param name="resultadosKPI">double</param>
+        /// <returns>color resultado del semaforo</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         private string calcularColorResultado(double resultadoKPI)
         {
             string color;
@@ -129,7 +160,18 @@ namespace ApiProyectoKPI.Models
 
             return color;
         }
-
+        /// <summary>
+        /// getDatoCampo
+        /// metodo encargado de obtener el valor de un campo
+        /// </summary>
+        /// <param name="registro">RegistroMercadeo</param>
+        /// <param name="indiceFormula">int</param>
+        /// <returns>double</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         private double getDatoCampo(RegistroMercadeo registro,int indiceFormula)
         {
             List<DetalleFormula> formula = Formula.ToList<DetalleFormula>();
@@ -160,7 +202,16 @@ namespace ApiProyectoKPI.Models
             }
             return dato;
         }
-
+        /// <summary>
+        /// isCampoUnico
+        /// metodo encargado de calcular si el kpi es simple o complejo
+        /// </summary>
+        /// <returns>bool</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         private bool isCalculoCampoUnico()
         {
             List<DetalleFormula> formula = Formula.ToList<DetalleFormula>();
