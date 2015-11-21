@@ -20,14 +20,28 @@ namespace ApiProyectoKPI.Controllers
         // GET: api/Usuarios
         public IQueryable<Usuario> GetUsuarios()
         {
-            return db.Usuarios;
+            return db.Usuarios.Include(b => b.Rol);
         }
 
         // GET: api/Usuarios/5
         [ResponseType(typeof(Usuario))]
         public IHttpActionResult GetUsuario(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
+            Usuario usuario = db.Usuarios.Where(b => b.UsuarioID == id).Include(b => b.Rol).FirstOrDefault();
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(usuario);
+        }
+
+        // GET: api/Usuarios/5
+        [HttpGet]
+        [Route("api/Usuarios/correo/{id}/{a}")]
+        public IHttpActionResult GetUsuarioCorreo(string id)
+        {
+            Usuario usuario = db.Usuarios.Where(b => b.Correo.Equals(id)).FirstOrDefault();
             if (usuario == null)
             {
                 return NotFound();
@@ -40,6 +54,7 @@ namespace ApiProyectoKPI.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutUsuario(int id, Usuario usuario)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -68,7 +83,7 @@ namespace ApiProyectoKPI.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.OK);
         }
 
         // POST: api/Usuarios
@@ -80,10 +95,14 @@ namespace ApiProyectoKPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            usuario.Rol = db.Rols.Find(usuario.Rol.RolID);
+
             db.Usuarios.Add(usuario);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = usuario.UsuarioID }, usuario);
+            return StatusCode(HttpStatusCode.OK);
+
+            //return CreatedAtRoute("DefaultApi", new { id = usuario.UsuarioID }, usuario);
         }
 
         // DELETE: api/Usuarios/5
