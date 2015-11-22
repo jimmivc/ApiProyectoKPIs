@@ -36,6 +36,19 @@ namespace ApiProyectoKPI.Controllers
             return Ok(permiso);
         }
 
+        [HttpGet]
+        [Route("api/Permisoes/permisosRol/{idRol}")]
+        public IHttpActionResult permisosAsignados(int idRol)
+        {//IQueryable<KPI>
+            Rol rol = db.Rols.Where(b => b.RolID == idRol).Include(b => b.Permisos).FirstOrDefault();
+            if (rol == null)
+            {
+                return NotFound();
+            }
+            ICollection<Permiso> permisos = rol.Permisos;
+            return Ok(permisos);
+        }
+
         // PUT: api/Permisoes/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutPermiso(int id, Permiso permiso)

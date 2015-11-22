@@ -116,17 +116,5 @@ namespace ApiProyectoKPI.Controllers
             return db.Rols.Count(e => e.RolID == id) > 0;
         }
 
-        [HttpGet]
-        [Route("api/Rols/permisosRol/{idRol}")]
-        public IHttpActionResult permisosAsignados(int idRol)
-        {
-            Rol rol = db.Rols.Where(b => b.RolID == idRol).Include(b => b.Permisos).FirstOrDefault();
-            if (rol == null)
-            {
-                return NotFound();
-            }
-            ICollection<Permiso> permisos = rol.Permisos;
-            return Ok(permisos);
-        }
     }
 }
