@@ -115,5 +115,6 @@ namespace ApiProyectoKPI.Controllers
         {
             return db.Permisoes.Count(e => e.PermisoID == id) > 0;
         }
+
     }
 }
