@@ -151,7 +151,7 @@ namespace ApiProyectoKPI.Controllers
             }
         }
         /// <summary>
-        /// GetUsuarioIdentificacion.  
+        /// GetProspectoIdentificacion.  
         /// Devuelve un objeto de prospecto cuyo número de identificación sea el requerido.
         /// </summary>
         /// <param name="Id">parámetro de tipo Integer.</param>
@@ -163,8 +163,21 @@ namespace ApiProyectoKPI.Controllers
         /// </list></para></remarks>
         // GET: api/Prospectoes/identificacion/id
         [HttpGet]
+        [Route("api/Prospectoes/usuario/{id}")]
+        public IHttpActionResult GetProspectoUsuarioIdentificacion(string id)
+        {
+            Prospecto prospecto = db.Prospectoes.Where(i => i.Identificacion == id).Include(u => u.Usuario).FirstOrDefault();
+            if (prospecto == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(prospecto);
+        }
+
+        [HttpGet]
         [Route("api/Prospectoes/identificacion/{id}")]
-        public IHttpActionResult GetUsuarioIdentificacion(string id)
+        public IHttpActionResult GetProspectoIdentificacion(string id)
         {
             Prospecto prospecto = db.Prospectoes.Where(i => i.Identificacion == id).FirstOrDefault();
             if (prospecto == null)
@@ -303,6 +316,16 @@ namespace ApiProyectoKPI.Controllers
             return CreatedAtRoute("DefaultApi", new { id = prospecto.ProspectoID }, prospecto);
         }
 
+        /// <summary>
+        /// PostListaProspecto.  
+        /// Registra una lista de prospectos.
+        /// </summary>
+        /// <param name="prospectos">parámetro de tipo Lista de Prospecto.</param>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Christian Ulloa Tosso </item>
+        /// <item>07/11/2015 - Creación</item>
+        /// </list></para></remarks>
         // POST: api/Prospectoes/RegistraListaProspectos
         [Route("api/Prospectoes/RegistraListaProspectos")]
         [ResponseType(typeof(List<Prospecto>))]
@@ -344,6 +367,7 @@ namespace ApiProyectoKPI.Controllers
 
             return StatusCode(HttpStatusCode.OK);
         }
+
 
 
 

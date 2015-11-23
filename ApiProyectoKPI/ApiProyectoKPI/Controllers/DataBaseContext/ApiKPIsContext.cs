@@ -47,5 +47,6 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
 
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.RegistroMercadeo> RegistrosMercadeo { get; set; }
 
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Venta> Ventas { get; set; }
     }
 }
