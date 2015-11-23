@@ -115,5 +115,6 @@ namespace ApiProyectoKPI.Controllers
         {
             return db.Rols.Count(e => e.RolID == id) > 0;
         }
+
     }
 }
