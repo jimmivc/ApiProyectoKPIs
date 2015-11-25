@@ -20,6 +20,7 @@ namespace ApiProyectoKPI.Models
         public string Formato { get; set; }
         public double Objetivo { get; set; }
         public bool Estado { get; set; }
+        public string Periodicidad { get; set; }
 
         [Required]
         public ParametroKPI Parametro { get; set; }
