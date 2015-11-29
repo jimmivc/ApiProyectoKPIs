@@ -43,7 +43,7 @@ namespace ApiProyectoKPI.Controllers
         public IQueryable<Prospecto> prospectoUsuario()
         {
 
-            return db.Prospectoes.Include(e => e.Usuario).Include(b => b.Usuario.Rol).Where(r => r.Usuario.Rol.RolID == 3);
+            return db.Prospectoes.Include(e => e.Usuario).Include(b => b.Usuario.Rol);
 
         }
 
