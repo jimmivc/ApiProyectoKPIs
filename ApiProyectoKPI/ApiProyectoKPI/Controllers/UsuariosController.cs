@@ -50,6 +50,22 @@ namespace ApiProyectoKPI.Controllers
             return Ok(usuario);
         }
 
+
+        // GET: api/Usuarios/Mercadeo
+        [HttpGet]
+        [Route("api/Usuarios/Mercadeo/")]
+        public IQueryable<Usuario> GetUsuariosMercadeo()
+        {
+
+
+            return db.Usuarios.Include(b => b.Rol).Where(r => r.Rol.RolID == 3);
+        }
+
+
+
+
+
+
         // PUT: api/Usuarios/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutUsuario(int id, Usuario usuario)
