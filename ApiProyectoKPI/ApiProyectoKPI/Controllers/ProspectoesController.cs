@@ -34,6 +34,55 @@ namespace ApiProyectoKPI.Controllers
             return db.Prospectoes.Include (e => e.Evento);
 
         }
+
+
+        /// <item>Autor.: Marjorie Arce </item>
+        // GET: api/Prospectoes/Usuarios
+        [HttpGet]
+        [Route("api/Prospectoes/Usuarios/")]
+        public IQueryable<Prospecto> prospectoUsuario()
+        {
+
+            return db.Prospectoes.Include(e => e.Usuario).Include(b => b.Usuario.Rol).Where(r => r.Usuario.Rol.RolID == 3);
+
+        }
+
+        /// <item>Autor.: Marjorie Arce </item>
+        // GET: api/Prospectoes/asignar
+        [HttpGet]
+        [Route("api/Prospectoes/asignar/{idUsuario}/{idProspecto}")]
+        public HttpResponseMessage asignarUsuario(int idUsuario, int idProspecto)
+        {
+            Usuario usuario = db.Usuarios.Find(idUsuario);
+            Prospecto prospecto = db.Prospectoes.Find(idProspecto);
+
+            if (usuario != null && prospecto != null)
+            {
+
+
+                prospecto.Usuario = usuario;
+                prospecto.ProspectoID = idProspecto;
+
+                db.Prospectoes.Find(prospecto.ProspectoID);
+
+                db.SaveChanges();
+
+            }
+
+            try
+            {
+                db.SaveChanges();
+                return Request.CreateResponse<string>(HttpStatusCode.InternalServerError, "El usuario fue asignado efectivamente al prospecto correspondiente");
+            }
+            catch (DbUpdateException up)
+            {
+
+                return Request.CreateResponse<string>(HttpStatusCode.InternalServerError, "El usuario ya fue asignado");
+            }
+
+        }
+
+
         /// <summary>
         /// GetIsProspecto.  
         /// Devuelve un objeto de prospecto sin objetos internos.
