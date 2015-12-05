@@ -238,5 +238,38 @@ namespace ApiProyectoKPI.Controllers
 
             return datos;
         }
+        /// <summary>
+        /// Desasignar
+        /// </summary>
+        /// <param name="idKPI"></param>
+        /// <param name="idRol"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/KPIs/desasignar/{idKPI}/{idRol}")]
+        public HttpResponseMessage desasignarKPI(int idKPI, int idRol)
+        {
+            KPI kpi = db.KPIs.Where(b => b.KPIID == idKPI).Include(b => b.RolesAsignados).FirstOrDefault();
+            Rol rol = db.Rols.Where(b =>b.RolID == idRol).Include(b=>b.IndicadoresKPI).FirstOrDefault();
+            
+
+            if (kpi != null && rol != null)
+            {
+                
+                rol.IndicadoresKPI.Remove(kpi);
+                kpi.RolesAsignados.Remove(rol);
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateException up)
+                {
+
+                    return Request.CreateResponse<string>(HttpStatusCode.InternalServerError, "El indicador ya fue asignado al rol seleccionado");
+                }
+
+            }
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
 }
