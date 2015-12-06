@@ -234,4 +234,3 @@ C:\Users\Owner\Documents\Repos\ApiProyectoKPIs\ApiProyectoKPI\ApiProyectoKPI\bin
 C:\Users\Owner\Documents\Repos\ApiProyectoKPIs\ApiProyectoKPI\ApiProyectoKPI\obj\Debug\ApiProyectoKPI.dll
 C:\Users\Owner\Documents\Repos\ApiProyectoKPIs\ApiProyectoKPI\ApiProyectoKPI\obj\Debug\ApiProyectoKPI.pdb
 C:\Users\Chris\Desktop\RepoLocalApi\ApiProyectoKPI\ApiProyectoKPI\obj\Debug\ApiProyectoKPI.csprojResolveAssemblyReference.cache
-C:\Users\Owner\Documents\Repos\ApiProyectoKPIs\ApiProyectoKPI\ApiProyectoKPI\obj\Debug\ApiProyectoKPI.csprojResolveAssemblyReference.cache
