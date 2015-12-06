@@ -23,6 +23,15 @@ namespace ApiProyectoKPI.Controllers
             return db.Usuarios.Include(b => b.Rol);
         }
 
+        // GET: api/Usuarios
+        [HttpGet]
+        [Route("api/Usuarios/Tipo/{id}")]
+        public IQueryable<Usuario> GetUsuariosTipo(int id)
+        {
+            return db.Usuarios.Include(t => t.Rol).Where(r => r.Rol.RolID == id);
+        }
+
+
         // GET: api/Usuarios/5
         [ResponseType(typeof(Usuario))]
         public IHttpActionResult GetUsuario(int id)
@@ -164,9 +173,9 @@ namespace ApiProyectoKPI.Controllers
         /// <item>Autor.: Christian Ulloa Tosso </item>
         /// <item>07/11/2015 - Creación</item>
         /// </list></para></remarks>
-        // GET: api/Prospectoes/identificacion/id
+        // GET: api/Usuarios/identificacion/id
         [HttpGet]
-        [Route("api/Usuarios/identificacion/{id}")]
+        [Route("api/Usuarios/Identificacion/{id}")]
         public IHttpActionResult GetUsuarioIdentificacion(int id)
         {
             Usuario usuario = db.Usuarios.Where(i => i.Cedula == id).FirstOrDefault();
