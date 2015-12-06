@@ -238,22 +238,24 @@ namespace ApiProyectoKPI.Controllers
             {
                 return BadRequest();
             }
+
+            var oldProspecto = db.Prospectoes
+                .Include(e => e.Evento)
+                .Single(c => c.ProspectoID == id);
+
+            db.Entry(oldProspecto).CurrentValues.SetValues(prospecto);
+
+            if(prospecto.Evento.EventoID == oldProspecto.Evento.EventoID)
+            {
+                db.Entry(oldProspecto.Evento).CurrentValues.SetValues(prospecto.Evento);
+            }
+            else
+            {
+                db.Eventoes.Attach(prospecto.Evento);
+                oldProspecto.Evento = prospecto.Evento;
+            }
             
-            Evento newEvento = db.Eventoes.Find(prospecto.Evento.EventoID);
-            prospecto.Evento = newEvento;
-            db.Eventoes.Attach(prospecto.Evento);
-            db.Prospectoes.Attach(prospecto);
-           
-          //  db.Prospectoes.Attach(prospecto);
-           // prospecto.Evento = db.Eventoes.Find(prospecto.Evento.EventoID)
-            //db.Prospectoes.Attach(prospecto);
-
-            db.Entry(prospecto).CurrentValues.SetValues(prospecto);
-                       
-            db.Entry(prospecto).State = EntityState.Modified ;
-            db.Entry(prospecto.Evento).State = EntityState.Modified;
-
-            try
+           try
             {
                 db.SaveChanges();
             }

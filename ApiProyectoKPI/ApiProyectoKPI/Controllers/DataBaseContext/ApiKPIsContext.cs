@@ -48,5 +48,11 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.RegistroMercadeo> RegistrosMercadeo { get; set; }
 
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Venta> Ventas { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Curso> Cursoes { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.RelacionCursos> RelacionCursos { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.TipoCurso> TipoCursoes { get; set; }
     }
 }

@@ -112,18 +112,25 @@ namespace ApiProyectoKPI.Controllers
             {
                 return BadRequest();
             }
-            formasContacto.TipoFormaContacto = db.TipoFormaContactoes.Find(formasContacto.TipoFormaContacto.TipoFormaContactoID);
-            if (formasContacto.GrupoEmpresarial == null)
+            
+            var oldFormaContacto = db.FormasContactoes
+               .Include(e => e.TipoFormaContacto)
+               .Single(c => c.FormasContactoID == id);
+
+            db.Entry(oldFormaContacto).CurrentValues.SetValues(formasContacto);
+
+            if (formasContacto.TipoFormaContacto.TipoFormaContactoID == oldFormaContacto.TipoFormaContacto.TipoFormaContactoID)
             {
-                formasContacto.GrupoEmpresarial = null;
+                db.Entry(oldFormaContacto.TipoFormaContacto).CurrentValues.SetValues(formasContacto.TipoFormaContacto);
             }
             else
             {
-                formasContacto.GrupoEmpresarial = db.GrupoEmpresarials.Find(formasContacto.GrupoEmpresarial.GrupoEmpresarialID);
+                db.TipoFormaContactoes.Attach(formasContacto.TipoFormaContacto);
+                oldFormaContacto.TipoFormaContacto = formasContacto.TipoFormaContacto;
             }
-            formasContacto.Prospecto = null;
-            db.Entry(formasContacto).State = EntityState.Modified;
 
+
+            //******
             try
             {
                 db.SaveChanges();

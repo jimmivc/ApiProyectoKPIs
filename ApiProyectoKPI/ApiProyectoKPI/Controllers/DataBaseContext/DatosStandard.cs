@@ -11,8 +11,12 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
     {
         protected override void Seed(ApiKPIsContext context)
         {
+            IList<TipoCurso> defaultTiposCurso = new List<TipoCurso>();
+            defaultTiposCurso.Add(new TipoCurso () { NombreTipoCurso = "Libre" });
+            defaultTiposCurso.Add(new TipoCurso () { NombreTipoCurso = "Acti" });
+            defaultTiposCurso.Add(new TipoCurso() { NombreTipoCurso = "Carrera" });
+            
             IList<Rol> defaultRols = new List<Rol>();
-
             defaultRols.Add(new Rol() { Nombre = "Administrador" });
             defaultRols.Add(new Rol() { Nombre = "Soporte" });
             defaultRols.Add(new Rol() { Nombre = "Mercadeo" });
@@ -65,6 +69,10 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
             foreach (GrupoEmpresarial  empresa in defaultGruposEmpresariales)
             {
                 context.GrupoEmpresarials.Add(empresa);
+            }
+            foreach (TipoCurso tipoCurso in defaultTiposCurso)
+            {
+                context.TipoCursoes.Add(tipoCurso);
             }
             base.Seed(context);
         }
