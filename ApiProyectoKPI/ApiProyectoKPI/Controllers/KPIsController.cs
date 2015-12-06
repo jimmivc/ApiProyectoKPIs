@@ -174,7 +174,7 @@ namespace ApiProyectoKPI.Controllers
                 try{
                 db.SaveChanges();
                 }
-                catch (DbUpdateException up)
+                catch (DbUpdateException)
                 {
                     
                     return Request.CreateResponse<string>(HttpStatusCode.InternalServerError,"El indicador ya fue asignado al rol seleccionado"); 
@@ -262,7 +262,7 @@ namespace ApiProyectoKPI.Controllers
                 {
                     db.SaveChanges();
                 }
-                catch (DbUpdateException up)
+                catch (DbUpdateException)
                 {
 
                     return Request.CreateResponse<string>(HttpStatusCode.InternalServerError, "El indicador ya fue asignado al rol seleccionado");
