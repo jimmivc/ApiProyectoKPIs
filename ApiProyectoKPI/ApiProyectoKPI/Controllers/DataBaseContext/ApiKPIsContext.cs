@@ -54,5 +54,9 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.RelacionCursos> RelacionCursos { get; set; }
 
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.TipoCurso> TipoCursoes { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Pregunta> Preguntas { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Categoria> Categorias { get; set; }
     }
 }
