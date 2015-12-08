@@ -13,51 +13,44 @@ using ApiProyectoKPI.Models;
 
 namespace ApiProyectoKPI.Controllers
 {
-    public class PreguntasController : ApiController
+    public class PlantillasController : ApiController
     {
         private ApiKPIsContext db = new ApiKPIsContext();
 
-        // GET: api/Preguntas
-        public IQueryable<Pregunta> GetPreguntas()
+        // GET: api/Plantillas
+        public IQueryable<Plantilla> GetPlantillas()
         {
-            return db.Preguntas;
+            return db.Plantillas;
         }
 
-        [HttpGet]
-        [Route("api/PreguntasCategoria")]
-        public IQueryable<Pregunta> GetPreguntasCategoria()
+        // GET: api/Plantillas/5
+        [ResponseType(typeof(Plantilla))]
+        public IHttpActionResult GetPlantilla(int id)
         {
-            return db.Preguntas.Include(b => b.Categoria);
-        }
-
-        // GET: api/Preguntas/5
-        [ResponseType(typeof(Pregunta))]
-        public IHttpActionResult GetPregunta(int id)
-        {
-            Pregunta pregunta = db.Preguntas.Find(id);
-            if (pregunta == null)
+            Plantilla plantilla = db.Plantillas.Find(id);
+            if (plantilla == null)
             {
                 return NotFound();
             }
 
-            return Ok(pregunta);
+            return Ok(plantilla);
         }
 
-        // PUT: api/Preguntas/5
+        // PUT: api/Plantillas/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutPregunta(int id, Pregunta pregunta)
+        public IHttpActionResult PutPlantilla(int id, Plantilla plantilla)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != pregunta.PreguntaID)
+            if (id != plantilla.PlantillaID)
             {
                 return BadRequest();
             }
 
-            db.Entry(pregunta).State = EntityState.Modified;
+            db.Entry(plantilla).State = EntityState.Modified;
 
             try
             {
@@ -65,7 +58,7 @@ namespace ApiProyectoKPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PreguntaExists(id))
+                if (!PlantillaExists(id))
                 {
                     return NotFound();
                 }
@@ -78,35 +71,39 @@ namespace ApiProyectoKPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Preguntas
-        [ResponseType(typeof(Pregunta))]
-        public IHttpActionResult PostPregunta(Pregunta pregunta)
+        // POST: api/Plantillas
+        [ResponseType(typeof(Plantilla))]
+        public IHttpActionResult PostPlantilla(Plantilla plantilla)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Preguntas.Add(pregunta);
+            db.Plantillas.Add(plantilla);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = pregunta.PreguntaID }, pregunta);
+            Plantilla newPlantilla = plantilla;
+
+            return Ok(newPlantilla);
+
+            //return CreatedAtRoute("DefaultApi", new { id = plantilla.PlantillaID }, plantilla);
         }
 
-        // DELETE: api/Preguntas/5
-        [ResponseType(typeof(Pregunta))]
-        public IHttpActionResult DeletePregunta(int id)
+        // DELETE: api/Plantillas/5
+        [ResponseType(typeof(Plantilla))]
+        public IHttpActionResult DeletePlantilla(int id)
         {
-            Pregunta pregunta = db.Preguntas.Find(id);
-            if (pregunta == null)
+            Plantilla plantilla = db.Plantillas.Find(id);
+            if (plantilla == null)
             {
                 return NotFound();
             }
 
-            db.Preguntas.Remove(pregunta);
+            db.Plantillas.Remove(plantilla);
             db.SaveChanges();
 
-            return Ok(pregunta);
+            return Ok(plantilla);
         }
 
         protected override void Dispose(bool disposing)
@@ -118,9 +115,9 @@ namespace ApiProyectoKPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool PreguntaExists(int id)
+        private bool PlantillaExists(int id)
         {
-            return db.Preguntas.Count(e => e.PreguntaID == id) > 0;
+            return db.Plantillas.Count(e => e.PlantillaID == id) > 0;
         }
     }
 }
