@@ -216,5 +216,13 @@ namespace ApiProyectoKPI.Controllers
         {
             return db.Usuarios.Count(e => e.UsuarioID == id) > 0;
         }
+        //***********marjorie
+        [HttpGet]
+        [Route("api/Usuarios/Mercadeo/")]
+        public IQueryable<Usuario> GetUsuariosMercadeo()
+        {
+            return db.Usuarios.Include(b => b.Rol).Where(r => r.Rol.RolID == 3);
+        }
+
     }
 }
