@@ -20,7 +20,7 @@ namespace ApiProyectoKPI.Controllers
         // GET: api/Preguntas
         public IQueryable<Pregunta> GetPreguntas()
         {
-            return db.Preguntas;
+            return db.Preguntas.Include(c => c.Categoria);
         }
 
         [HttpGet]
@@ -86,13 +86,20 @@ namespace ApiProyectoKPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            if (pregunta.Categoria == null)
+            {
+                pregunta.Categoria = null;
+            }
+            else
+            {
+                pregunta.Categoria = db.Categorias.Find(pregunta.Categoria.CategoriaID);
+            }
             db.Preguntas.Add(pregunta);
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = pregunta.PreguntaID }, pregunta);
         }
-
+        
         // DELETE: api/Preguntas/5
         [ResponseType(typeof(Pregunta))]
         public IHttpActionResult DeletePregunta(int id)
