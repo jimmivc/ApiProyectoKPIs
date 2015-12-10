@@ -226,5 +226,9 @@ namespace ApiProyectoKPI.Models
             }
         }
 
+        public RegistroMercadeo rangoFechas()
+        {
+            return null;
+        }
     }
 }
