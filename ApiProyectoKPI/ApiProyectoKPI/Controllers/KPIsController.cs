@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using ApiProyectoKPI.Controllers.DataBaseContext;
 using ApiProyectoKPI.Models;
+using System.Collections;
 
 namespace ApiProyectoKPI.Controllers
 {
@@ -272,29 +273,122 @@ namespace ApiProyectoKPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
         //basado en fechas!!!!!!!!!!
-        //[HttpGet]
-        //[Route("api/KPIs/resultados/{idRol}")]
-        //public List<List<string>> resultadosKPI(int idRol)
-        //{
-        //    List<List<string>> datos = new List<List<string>>();
+        [HttpGet]
+        [Route("api/KPIs/resultados/{idRol}")]
+        public List<List<string>> resultadosKPI(int idRol)
+        {
+            List<List<string>> datos = new List<List<string>>();
 
-        //    var usuarios = db.Usuarios
-        //        .Where(b => b.Rol.RolID == idRol);
-        //    var registro = db.RegistrosMercadeo.Find(idRegistro);
-        //    //colocar la hora 12:00 en todos los registros
-        //    var registros = db.RegistrosMercadeo.Where(b => b.fechaHora == registro.fechaHora);
+            var usuarios = db.Usuarios
+                .Where(b => b.Rol.RolID == idRol);
+            var kp = indicadoresAsignados(idRol).Include(b => b.Parametro).Include(b => b.Formula);
+            
+            
+            //colocar la hora 12:00 en todos los registros
+            //var registros = getRegistros();//db.RegistrosMercadeo.Where(b => b.fechaHora == registro.fechaHora);
 
-        //    var kp = indicadoresAsignados(idRol).Include(b => b.Parametro).Include(b => b.Formula);
-        //    List<KPI> kpis = kp.ToList();
-        //    if (registro != null && usuarios != null)
-        //    {
-        //        foreach (KPI k in kpis)
-        //        {
-        //            datos.Add(k.calcularResultados(registros.ToList<RegistroMercadeo>(), usuarios.ToList<Usuario>()));
-        //        }
-        //    }
 
-        //    return datos;
-        //}
+            List<KPI> kpis = kp.ToList();
+            
+            if (usuarios != null)
+            {
+                foreach (KPI k in kpis)
+                {
+                   var registros = getRegistros(k.Periodicidad,idRol);
+                   if(registros!=null)
+                    datos.Add(k.calcularResultados(registros.ToList<RegistroMercadeo>(), usuarios.ToList<Usuario>()));
+                }
+            }
+
+            return datos;
+        }
+
+        private IEnumerable<RegistroMercadeo> getRegistros(string peridiocidad, int idRol)
+        {
+            List<RegistroMercadeo> registros = new List<RegistroMercadeo>();
+            DateTime fechaActual = new DateTime(DateTime.Now.Year,DateTime.Now.Month,01);
+
+            var todos = db.RegistrosMercadeo.Where(b=>b.usuario.Rol.RolID==idRol);
+
+
+            switch (peridiocidad.ToLower())
+            {
+                case "mensual":
+                    foreach (var r in todos)
+                    {
+                        TimeSpan diferencia = fechaActual.Subtract(r.fechaHora);
+                        if (Convert.ToInt32(diferencia.TotalDays / 30) == 1)
+                        {
+                            registros.Add(r);
+                        }
+                    }
+                    break;
+                case "cuatrimestral":
+                    bool cuatri = false;
+                    foreach (var r in todos)
+                    {
+                        TimeSpan diferencia = fechaActual.Subtract(r.fechaHora);
+                        if (Convert.ToInt32(diferencia.TotalDays / 30) < 5)
+                        {
+                            registros.Add(r);
+                        }
+                        if (Convert.ToInt32(diferencia.TotalDays / 30) == 4)
+                        {
+                            cuatri = true;
+                        }
+                    }
+                    if (!cuatri)
+                    {
+                        registros = null;
+                    }
+
+                    break;
+                case "anual":
+                    bool anio = false;
+                    foreach (var r in todos)
+                    {
+                        TimeSpan diferencia = fechaActual.Subtract(r.fechaHora);
+                        if (Convert.ToInt32(diferencia.TotalDays / 30) < 13)
+                        {
+                            registros.Add(r);
+                        }
+                        if (Convert.ToInt32(diferencia.TotalDays / 30) == 12)
+                        {
+                            anio = true;
+                        }
+                    }
+                    if (!anio)
+                    {
+                        registros = null;
+                    }
+                    break;
+            }
+            
+            return registros;
+        }
+
+        [HttpGet]
+        [Route("api/KPIs/datos/{campos}")]
+        public List<string> datos(string campos)
+        {
+            List<string> datos = new List<string>();
+            campos = campos.ToLower();
+            if(campos.Equals("mercadeo")){
+                datos.Add("Llamadas");
+                datos.Add("Llamadas Efectivas");
+                datos.Add("Promedio Duracion Efectivas");
+                datos.Add("Duracion Llamadas Efectivas");
+                datos.Add("Cantidad Ventas");
+                datos.Add("Monto Ventas");
+            
+            }else if(campos.Equals("profesores")){
+                datos.Add("Cantidad Estudiantes");
+                datos.Add("Cantidad Encuestados");
+                datos.Add("Porcentaje Participacion");
+                datos.Add("Nota Promedio");
+            }
+
+            return datos;
+        }
     }
 }

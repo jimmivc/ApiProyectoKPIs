@@ -41,6 +41,12 @@ namespace ApiProyectoKPI.Models
         public List<string> calcularResultados(List<RegistroMercadeo> registros, List<Usuario> usuarios){
             List<string> result = new List<string>();
 
+            //agrupar registros
+            if (!Periodicidad.Equals("mensual"))
+            {
+                registros = agruparRegistros(usuarios, registros);
+            }
+
             foreach (Usuario user in usuarios)
             {
                 foreach (RegistroMercadeo registro in registros)
@@ -51,11 +57,13 @@ namespace ApiProyectoKPI.Models
                         {
                             result.Add(DescKpi);
                             result.Add(user.Nombre + " " + user.Apellidos);
+                            result.Add(Formato);
+                            result.Add(Objetivo.ToString());
                             if (isCalculoCampoUnico())
                             {
                                 double datoCampo = getDatoCampo(registro, 0);
 
-                                result.Add(datoCampo.ToString());
+                                result.Add(formatoFinal(datoCampo).ToString());
                                 result.Add(calcularColorResultado(datoCampo));
 
                             }
@@ -69,7 +77,6 @@ namespace ApiProyectoKPI.Models
                                 {
                                     if (formula[i].Tabla != null)
                                     {
-
                                         //result.Add(getDatoCampo(registro, i).ToString());
                                         datos.Add(getDatoCampo(registro, i));
                                     }
@@ -80,17 +87,40 @@ namespace ApiProyectoKPI.Models
                                     }
                                 }
 
-                                result.Add(aplicarFormula(datos, formula).ToString());
+                                result.Add(formatoFinal(aplicarFormula(datos, formula)).ToString());
                                 result.Add(calcularColorResultado(aplicarFormula(datos, formula)));
 
                             }
                         }
                     }
-                    
                 }
             }
             return result;
         }
+
+        
+        private List<RegistroMercadeo> agruparRegistros(List<Usuario> usuarios, List<RegistroMercadeo> registros)
+        {
+            List<RegistroMercadeo> regGroup = new List<RegistroMercadeo>(); 
+            foreach(Usuario user in usuarios){
+                RegistroMercadeo registroTotales = new RegistroMercadeo();
+                foreach(var reg in registros){
+                    if (reg.usuario.UsuarioID == user.UsuarioID)
+                    {
+                        registroTotales.MontoTotalVentas += reg.MontoTotalVentas;
+                        registroTotales.PromDuraLlamadasEfectivas += reg.PromDuraLlamadasEfectivas;
+                        registroTotales.CantidadVentas += reg.CantidadVentas;
+                        registroTotales.DuracionLlamadaEfectiva += reg.DuracionLlamadaEfectiva;
+                        registroTotales.TotalLlamadas += reg.TotalLlamadas;
+                        registroTotales.TotalLlamadasEfectivas += reg.TotalLlamadasEfectivas;
+                    }
+                }
+                registroTotales.usuario = user;
+                regGroup.Add(registroTotales);
+            }
+            return regGroup;
+        }
+
         /// <summary>
         /// aplicarFormula
         /// metodo encargado de descomponer la formula y aplicarla
@@ -226,9 +256,19 @@ namespace ApiProyectoKPI.Models
             }
         }
 
-        public RegistroMercadeo rangoFechas()
+        private double formatoFinal(double resultado)
         {
-            return null;
+            switch (Formato.ToLower())
+            {
+                case "123":
+                    resultado = Convert.ToInt32(resultado);
+                    break;
+                case "%":
+                    resultado = (resultado * 100) / Objetivo;
+                    break;
+            }
+
+            return resultado;
         }
     }
 }

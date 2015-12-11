@@ -453,7 +453,7 @@ namespace ApiProyectoKPI.Controllers
                 db.SaveChanges();
                 return Request.CreateResponse<string>(HttpStatusCode.InternalServerError, "El usuario fue asignado efectivamente al prospecto correspondiente");
             }
-            catch (DbUpdateException up)
+            catch (DbUpdateException)
             {
                 return Request.CreateResponse<string>(HttpStatusCode.InternalServerError, "El usuario ya fue asignado");
             }
