@@ -13,7 +13,7 @@ namespace ApiProyectoKPI.Models
     {
         public Prospecto()
         {
-            FechaNac = DateTime.Now;
+            
             FechaIngresoBase = DateTime.Now;
         }
         public int ProspectoID { get; set; }
@@ -22,9 +22,9 @@ namespace ApiProyectoKPI.Models
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
         public int Edad { get; set; }
-        public DateTime FechaNac { get; set; }
+        public DateTime? FechaNac { get; set; }
         public int AnioBachillerato { get; set; }
-        public DateTime FechaIngresoBase { get; set; }
+        public DateTime? FechaIngresoBase { get; set; }
         public Evento Evento { get; set; }
         public bool IsTrabajando { get; set; }
         public bool IsInscritoPromociones { get; set; }

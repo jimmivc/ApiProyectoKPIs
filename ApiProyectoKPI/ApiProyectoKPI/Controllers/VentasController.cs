@@ -13,44 +13,44 @@ using ApiProyectoKPI.Models;
 
 namespace ApiProyectoKPI.Controllers
 {
-    public class RolsController : ApiController
+    public class VentasController : ApiController
     {
         private ApiKPIsContext db = new ApiKPIsContext();
 
-        // GET: api/Rols
-        public IQueryable<Rol> GetRols()
+        // GET: api/Ventas
+        public IQueryable<Venta> Getventas()
         {
-            return db.Rols;
+            return db.Ventas;
         }
 
-        // GET: api/Rols/5
-        [ResponseType(typeof(Rol))]
-        public IHttpActionResult GetRol(int id)
+        // GET: api/Ventas/5
+        [ResponseType(typeof(Venta))]
+        public IHttpActionResult GetVenta(int id)
         {
-            Rol rol = db.Rols.Find(id);
-            if (rol == null)
+            Venta venta = db.Ventas.Find(id);
+            if (venta == null)
             {
                 return NotFound();
             }
 
-            return Ok(rol);
+            return Ok(venta);
         }
 
-        // PUT: api/Rols/5
+        // PUT: api/Ventas/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRol(int id, Rol rol)
+        public IHttpActionResult PutVenta(int id, Venta venta)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != rol.RolID)
+            if (id != venta.VentaID)
             {
                 return BadRequest();
             }
 
-            db.Entry(rol).State = EntityState.Modified;
+            db.Entry(venta).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace ApiProyectoKPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RolExists(id))
+                if (!VentaExists(id))
                 {
                     return NotFound();
                 }
@@ -71,35 +71,44 @@ namespace ApiProyectoKPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Rols
-        [ResponseType(typeof(Rol))]
-        public IHttpActionResult PostRol(Rol rol)
+        // POST: api/Ventas
+        [ResponseType(typeof(Venta))]
+        public IHttpActionResult PostVenta(Venta venta)
         {
+
+            var Prospecto = db.Prospectoes.Where(b => b.Identificacion == venta.Prospecto.Identificacion).Include(b => b.Usuario).FirstOrDefault();
+            venta.Prospecto = Prospecto;
+            venta.Usuario = Prospecto.Usuario;
+            //venta.Prospecto = db.Prospectoes.Find(venta.Prospecto);
+            //venta.Usuario = db.Prospectoes.Find(venta.Prospecto.Identificacion).(include =>Usuario).FirstOrDefault();
+
+
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Rols.Add(rol);
+            db.Ventas.Add(venta);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = rol.RolID }, rol);
+            return CreatedAtRoute("DefaultApi", new { id = venta.VentaID }, venta);
         }
 
-        // DELETE: api/Rols/5
-        [ResponseType(typeof(Rol))]
-        public IHttpActionResult DeleteRol(int id)
+        // DELETE: api/Ventas/5
+        [ResponseType(typeof(Venta))]
+        public IHttpActionResult DeleteVenta(int id)
         {
-            Rol rol = db.Rols.Find(id);
-            if (rol == null)
+            Venta venta = db.Ventas.Find(id);
+            if (venta == null)
             {
                 return NotFound();
             }
 
-            db.Rols.Remove(rol);
+            db.Ventas.Remove(venta);
             db.SaveChanges();
 
-            return Ok(rol);
+            return Ok(venta);
         }
 
         protected override void Dispose(bool disposing)
@@ -111,10 +120,9 @@ namespace ApiProyectoKPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool RolExists(int id)
+        private bool VentaExists(int id)
         {
-            return db.Rols.Count(e => e.RolID == id) > 0;
+            return db.Ventas.Count(e => e.VentaID == id) > 0;
         }
-
     }
 }

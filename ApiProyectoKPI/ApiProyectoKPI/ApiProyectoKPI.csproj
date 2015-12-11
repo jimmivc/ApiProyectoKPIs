@@ -167,6 +167,8 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AreaInteresController.cs" />
     <Compile Include="Controllers\BitacorasController.cs" />
+    <Compile Include="Controllers\CategoriasController.cs" />
+    <Compile Include="Controllers\CursoesController.cs" />
     <Compile Include="Controllers\DataBaseContext\ApiKPIsContext.cs" />
     <Compile Include="Controllers\DataBaseContext\DatosStandard.cs" />
     <Compile Include="Controllers\DetalleFormulasController.cs" />
@@ -177,18 +179,26 @@
     <Compile Include="Controllers\KPIsController.cs" />
     <Compile Include="Controllers\ParametroKPIsController.cs" />
     <Compile Include="Controllers\PermisoesController.cs" />
+    <Compile Include="Controllers\PlantillaDetalleController.cs" />
+    <Compile Include="Controllers\PlantillasController.cs" />
+    <Compile Include="Controllers\PreguntasController.cs" />
     <Compile Include="Controllers\ProspectoesController.cs" />
     <Compile Include="Controllers\RegistroMercadeosController.cs" />
+    <Compile Include="Controllers\RelacionCursosController.cs" />
     <Compile Include="Controllers\RolsController.cs" />
     <Compile Include="Controllers\SeguimientoesController.cs" />
+    <Compile Include="Controllers\TipoCursoesController.cs" />
     <Compile Include="Controllers\TipoFormaContactoesController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AreaInteres.cs" />
     <Compile Include="Models\Bitacora.cs" />
+    <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\Curso.cs" />
     <Compile Include="Models\DetalleFormula.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\FormasContacto.cs" />
@@ -196,12 +206,18 @@
     <Compile Include="Models\KPI.cs" />
     <Compile Include="Models\ParametroKPI.cs" />
     <Compile Include="Models\Permiso.cs" />
+    <Compile Include="Models\Plantilla.cs" />
+    <Compile Include="Models\PlantillaDetalle.cs" />
+    <Compile Include="Models\Pregunta.cs" />
     <Compile Include="Models\Prospecto.cs" />
     <Compile Include="Models\RegistroMercadeo.cs" />
+    <Compile Include="Models\RelacionCursos.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Seguimiento.cs" />
+    <Compile Include="Models\TipoCurso.cs" />
     <Compile Include="Models\TipoFormaContacto.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\Venta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

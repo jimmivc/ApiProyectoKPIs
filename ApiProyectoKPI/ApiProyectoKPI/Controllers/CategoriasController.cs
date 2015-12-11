@@ -13,44 +13,44 @@ using ApiProyectoKPI.Models;
 
 namespace ApiProyectoKPI.Controllers
 {
-    public class RolsController : ApiController
+    public class CategoriasController : ApiController
     {
         private ApiKPIsContext db = new ApiKPIsContext();
 
-        // GET: api/Rols
-        public IQueryable<Rol> GetRols()
+        // GET: api/Categorias
+        public IQueryable<Categoria> GetCategorias()
         {
-            return db.Rols;
+            return db.Categorias;
         }
 
-        // GET: api/Rols/5
-        [ResponseType(typeof(Rol))]
-        public IHttpActionResult GetRol(int id)
+        // GET: api/Categorias/5
+        [ResponseType(typeof(Categoria))]
+        public IHttpActionResult GetCategoria(int id)
         {
-            Rol rol = db.Rols.Find(id);
-            if (rol == null)
+            Categoria categoria = db.Categorias.Find(id);
+            if (categoria == null)
             {
                 return NotFound();
             }
 
-            return Ok(rol);
+            return Ok(categoria);
         }
 
-        // PUT: api/Rols/5
+        // PUT: api/Categorias/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRol(int id, Rol rol)
+        public IHttpActionResult PutCategoria(int id, Categoria categoria)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != rol.RolID)
+            if (id != categoria.CategoriaID)
             {
                 return BadRequest();
             }
 
-            db.Entry(rol).State = EntityState.Modified;
+            db.Entry(categoria).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace ApiProyectoKPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RolExists(id))
+                if (!CategoriaExists(id))
                 {
                     return NotFound();
                 }
@@ -71,35 +71,35 @@ namespace ApiProyectoKPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Rols
-        [ResponseType(typeof(Rol))]
-        public IHttpActionResult PostRol(Rol rol)
+        // POST: api/Categorias
+        [ResponseType(typeof(Categoria))]
+        public IHttpActionResult PostCategoria(Categoria categoria)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Rols.Add(rol);
+            db.Categorias.Add(categoria);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = rol.RolID }, rol);
+            return CreatedAtRoute("DefaultApi", new { id = categoria.CategoriaID }, categoria);
         }
 
-        // DELETE: api/Rols/5
-        [ResponseType(typeof(Rol))]
-        public IHttpActionResult DeleteRol(int id)
+        // DELETE: api/Categorias/5
+        [ResponseType(typeof(Categoria))]
+        public IHttpActionResult DeleteCategoria(int id)
         {
-            Rol rol = db.Rols.Find(id);
-            if (rol == null)
+            Categoria categoria = db.Categorias.Find(id);
+            if (categoria == null)
             {
                 return NotFound();
             }
 
-            db.Rols.Remove(rol);
+            db.Categorias.Remove(categoria);
             db.SaveChanges();
 
-            return Ok(rol);
+            return Ok(categoria);
         }
 
         protected override void Dispose(bool disposing)
@@ -111,10 +111,9 @@ namespace ApiProyectoKPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool RolExists(int id)
+        private bool CategoriaExists(int id)
         {
-            return db.Rols.Count(e => e.RolID == id) > 0;
+            return db.Categorias.Count(e => e.CategoriaID == id) > 0;
         }
-
     }
 }

@@ -20,15 +20,32 @@ namespace ApiProyectoKPI.Models
         public string Formato { get; set; }
         public double Objetivo { get; set; }
         public bool Estado { get; set; }
+        public string Periodicidad { get; set; }
 
         [Required]
         public ParametroKPI Parametro { get; set; }
         public ICollection<DetalleFormula> Formula { get; set; }
         
         public ICollection<Rol> RolesAsignados { get; set; }
-
+        /// <summary>
+        /// calcularResultados
+        /// metodo encargado de calcular los resultados kpi para los usuarios que pertenecen a un rol
+        /// </summary>
+        /// <param name="registros">Registros mercadeo</param>
+        /// <returns>List(Of String)</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         public List<string> calcularResultados(List<RegistroMercadeo> registros, List<Usuario> usuarios){
             List<string> result = new List<string>();
+
+            //agrupar registros
+            if (!Periodicidad.Equals("mensual"))
+            {
+                registros = agruparRegistros(usuarios, registros);
+            }
 
             foreach (Usuario user in usuarios)
             {
@@ -40,11 +57,13 @@ namespace ApiProyectoKPI.Models
                         {
                             result.Add(DescKpi);
                             result.Add(user.Nombre + " " + user.Apellidos);
+                            result.Add(Formato);
+                            result.Add(Objetivo.ToString());
                             if (isCalculoCampoUnico())
                             {
                                 double datoCampo = getDatoCampo(registro, 0);
 
-                                result.Add(datoCampo.ToString());
+                                result.Add(formatoFinal(datoCampo).ToString());
                                 result.Add(calcularColorResultado(datoCampo));
 
                             }
@@ -58,7 +77,6 @@ namespace ApiProyectoKPI.Models
                                 {
                                     if (formula[i].Tabla != null)
                                     {
-
                                         //result.Add(getDatoCampo(registro, i).ToString());
                                         datos.Add(getDatoCampo(registro, i));
                                     }
@@ -69,18 +87,52 @@ namespace ApiProyectoKPI.Models
                                     }
                                 }
 
-                                result.Add(aplicarFormula(datos, formula).ToString());
+                                result.Add(formatoFinal(aplicarFormula(datos, formula)).ToString());
                                 result.Add(calcularColorResultado(aplicarFormula(datos, formula)));
 
                             }
                         }
                     }
-                    
                 }
             }
             return result;
         }
 
+        
+        private List<RegistroMercadeo> agruparRegistros(List<Usuario> usuarios, List<RegistroMercadeo> registros)
+        {
+            List<RegistroMercadeo> regGroup = new List<RegistroMercadeo>(); 
+            foreach(Usuario user in usuarios){
+                RegistroMercadeo registroTotales = new RegistroMercadeo();
+                foreach(var reg in registros){
+                    if (reg.usuario.UsuarioID == user.UsuarioID)
+                    {
+                        registroTotales.MontoTotalVentas += reg.MontoTotalVentas;
+                        registroTotales.PromDuraLlamadasEfectivas += reg.PromDuraLlamadasEfectivas;
+                        registroTotales.CantidadVentas += reg.CantidadVentas;
+                        registroTotales.DuracionLlamadaEfectiva += reg.DuracionLlamadaEfectiva;
+                        registroTotales.TotalLlamadas += reg.TotalLlamadas;
+                        registroTotales.TotalLlamadasEfectivas += reg.TotalLlamadasEfectivas;
+                    }
+                }
+                registroTotales.usuario = user;
+                regGroup.Add(registroTotales);
+            }
+            return regGroup;
+        }
+
+        /// <summary>
+        /// aplicarFormula
+        /// metodo encargado de descomponer la formula y aplicarla
+        /// </summary>
+        /// <param name="datos">List<double></param>
+        /// <param name="formula">List<DetalleFormula></param>
+        /// <returns>double</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         private double aplicarFormula(List<double> datos, List<DetalleFormula> formula)
         {
             int indiceDato = 0;
@@ -110,7 +162,17 @@ namespace ApiProyectoKPI.Models
             }
             return resultado;
         }
-
+        /// <summary>
+        /// calcularColorResultado
+        /// metodo encargado de calcular el color resultado del kpi
+        /// </summary>
+        /// <param name="resultadosKPI">double</param>
+        /// <returns>color resultado del semaforo</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         private string calcularColorResultado(double resultadoKPI)
         {
             string color;
@@ -129,7 +191,18 @@ namespace ApiProyectoKPI.Models
 
             return color;
         }
-
+        /// <summary>
+        /// getDatoCampo
+        /// metodo encargado de obtener el valor de un campo
+        /// </summary>
+        /// <param name="registro">RegistroMercadeo</param>
+        /// <param name="indiceFormula">int</param>
+        /// <returns>double</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         private double getDatoCampo(RegistroMercadeo registro,int indiceFormula)
         {
             List<DetalleFormula> formula = Formula.ToList<DetalleFormula>();
@@ -160,7 +233,16 @@ namespace ApiProyectoKPI.Models
             }
             return dato;
         }
-
+        /// <summary>
+        /// isCampoUnico
+        /// metodo encargado de calcular si el kpi es simple o complejo
+        /// </summary>
+        /// <returns>bool</returns>
+        /// <remarks><para>Historia de Creación y modificaciones:
+        /// <list type="bullet">
+        /// <item>Autor.: Jimmi Vila </item>
+        /// <item>10/10/2015 - Creación</item>
+        /// </list></para></remarks>
         private bool isCalculoCampoUnico()
         {
             List<DetalleFormula> formula = Formula.ToList<DetalleFormula>();
@@ -174,5 +256,19 @@ namespace ApiProyectoKPI.Models
             }
         }
 
+        private double formatoFinal(double resultado)
+        {
+            switch (Formato.ToLower())
+            {
+                case "123":
+                    resultado = Convert.ToInt32(resultado);
+                    break;
+                case "%":
+                    resultado = (resultado * 100) / Objetivo;
+                    break;
+            }
+
+            return resultado;
+        }
     }
 }

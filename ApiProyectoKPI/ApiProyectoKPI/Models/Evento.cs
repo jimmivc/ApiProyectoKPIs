@@ -14,7 +14,7 @@ namespace ApiProyectoKPI.Models
         }
         public int EventoID { get; set; }
         public string DescEventoCaptacion { get; set; }
-        public DateTime FechaEvento { get; set; }
+        public DateTime? FechaEvento { get; set; }
         public string LugarEvento { get; set; }
     }
 }

@@ -13,44 +13,44 @@ using ApiProyectoKPI.Models;
 
 namespace ApiProyectoKPI.Controllers
 {
-    public class RolsController : ApiController
+    public class PlantillasController : ApiController
     {
         private ApiKPIsContext db = new ApiKPIsContext();
 
-        // GET: api/Rols
-        public IQueryable<Rol> GetRols()
+        // GET: api/Plantillas
+        public IQueryable<Plantilla> GetPlantillas()
         {
-            return db.Rols;
+            return db.Plantillas;
         }
 
-        // GET: api/Rols/5
-        [ResponseType(typeof(Rol))]
-        public IHttpActionResult GetRol(int id)
+        // GET: api/Plantillas/5
+        [ResponseType(typeof(Plantilla))]
+        public IHttpActionResult GetPlantilla(int id)
         {
-            Rol rol = db.Rols.Find(id);
-            if (rol == null)
+            Plantilla plantilla = db.Plantillas.Find(id);
+            if (plantilla == null)
             {
                 return NotFound();
             }
 
-            return Ok(rol);
+            return Ok(plantilla);
         }
 
-        // PUT: api/Rols/5
+        // PUT: api/Plantillas/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRol(int id, Rol rol)
+        public IHttpActionResult PutPlantilla(int id, Plantilla plantilla)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != rol.RolID)
+            if (id != plantilla.PlantillaID)
             {
                 return BadRequest();
             }
 
-            db.Entry(rol).State = EntityState.Modified;
+            db.Entry(plantilla).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace ApiProyectoKPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RolExists(id))
+                if (!PlantillaExists(id))
                 {
                     return NotFound();
                 }
@@ -71,35 +71,39 @@ namespace ApiProyectoKPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Rols
-        [ResponseType(typeof(Rol))]
-        public IHttpActionResult PostRol(Rol rol)
+        // POST: api/Plantillas
+        [ResponseType(typeof(Plantilla))]
+        public IHttpActionResult PostPlantilla(Plantilla plantilla)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Rols.Add(rol);
+            db.Plantillas.Add(plantilla);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = rol.RolID }, rol);
+            Plantilla newPlantilla = plantilla;
+
+            return Ok(newPlantilla);
+
+            //return CreatedAtRoute("DefaultApi", new { id = plantilla.PlantillaID }, plantilla);
         }
 
-        // DELETE: api/Rols/5
-        [ResponseType(typeof(Rol))]
-        public IHttpActionResult DeleteRol(int id)
+        // DELETE: api/Plantillas/5
+        [ResponseType(typeof(Plantilla))]
+        public IHttpActionResult DeletePlantilla(int id)
         {
-            Rol rol = db.Rols.Find(id);
-            if (rol == null)
+            Plantilla plantilla = db.Plantillas.Find(id);
+            if (plantilla == null)
             {
                 return NotFound();
             }
 
-            db.Rols.Remove(rol);
+            db.Plantillas.Remove(plantilla);
             db.SaveChanges();
 
-            return Ok(rol);
+            return Ok(plantilla);
         }
 
         protected override void Dispose(bool disposing)
@@ -111,10 +115,9 @@ namespace ApiProyectoKPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool RolExists(int id)
+        private bool PlantillaExists(int id)
         {
-            return db.Rols.Count(e => e.RolID == id) > 0;
+            return db.Plantillas.Count(e => e.PlantillaID == id) > 0;
         }
-
     }
 }
