@@ -366,5 +366,29 @@ namespace ApiProyectoKPI.Controllers
             
             return registros;
         }
+
+        [HttpGet]
+        [Route("api/KPIs/datos/{campos}")]
+        public List<string> datos(string campos)
+        {
+            List<string> datos = new List<string>();
+            campos = campos.ToLower();
+            if(campos.Equals("mercadeo")){
+                datos.Add("Llamadas");
+                datos.Add("Llamadas Efectivas");
+                datos.Add("Promedio Duracion Efectivas");
+                datos.Add("Duracion Llamadas Efectivas");
+                datos.Add("Cantidad Ventas");
+                datos.Add("Monto Ventas");
+            
+            }else if(campos.Equals("profesores")){
+                datos.Add("Cantidad Estudiantes");
+                datos.Add("Cantidad Encuestados");
+                datos.Add("Porcentaje Participacion");
+                datos.Add("Nota Promedio");
+            }
+
+            return datos;
+        }
     }
 }
