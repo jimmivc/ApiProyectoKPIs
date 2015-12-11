@@ -57,6 +57,8 @@ namespace ApiProyectoKPI.Models
                         {
                             result.Add(DescKpi);
                             result.Add(user.Nombre + " " + user.Apellidos);
+                            result.Add(Formato);
+                            result.Add(Objetivo.ToString());
                             if (isCalculoCampoUnico())
                             {
                                 double datoCampo = getDatoCampo(registro, 0);
@@ -75,7 +77,6 @@ namespace ApiProyectoKPI.Models
                                 {
                                     if (formula[i].Tabla != null)
                                     {
-
                                         //result.Add(getDatoCampo(registro, i).ToString());
                                         datos.Add(getDatoCampo(registro, i));
                                     }
@@ -92,12 +93,12 @@ namespace ApiProyectoKPI.Models
                             }
                         }
                     }
-                    
                 }
             }
             return result;
         }
 
+        
         private List<RegistroMercadeo> agruparRegistros(List<Usuario> usuarios, List<RegistroMercadeo> registros)
         {
             List<RegistroMercadeo> regGroup = new List<RegistroMercadeo>(); 
