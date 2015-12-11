@@ -41,6 +41,12 @@ namespace ApiProyectoKPI.Models
         public List<string> calcularResultados(List<RegistroMercadeo> registros, List<Usuario> usuarios){
             List<string> result = new List<string>();
 
+            //agrupar registros
+            if (!Periodicidad.Equals("mensual"))
+            {
+                registros = agruparRegistros(usuarios, registros);
+            }
+
             foreach (Usuario user in usuarios)
             {
                 foreach (RegistroMercadeo registro in registros)
@@ -91,6 +97,29 @@ namespace ApiProyectoKPI.Models
             }
             return result;
         }
+
+        private List<RegistroMercadeo> agruparRegistros(List<Usuario> usuarios, List<RegistroMercadeo> registros)
+        {
+            List<RegistroMercadeo> regGroup = new List<RegistroMercadeo>(); 
+            foreach(Usuario user in usuarios){
+                RegistroMercadeo registroTotales = new RegistroMercadeo();
+                foreach(var reg in registros){
+                    if (reg.usuario.UsuarioID == user.UsuarioID)
+                    {
+                        registroTotales.MontoTotalVentas += reg.MontoTotalVentas;
+                        registroTotales.PromDuraLlamadasEfectivas += reg.PromDuraLlamadasEfectivas;
+                        registroTotales.CantidadVentas += reg.CantidadVentas;
+                        registroTotales.DuracionLlamadaEfectiva += reg.DuracionLlamadaEfectiva;
+                        registroTotales.TotalLlamadas += reg.TotalLlamadas;
+                        registroTotales.TotalLlamadasEfectivas += reg.TotalLlamadasEfectivas;
+                    }
+                }
+                registroTotales.usuario = user;
+                regGroup.Add(registroTotales);
+            }
+            return regGroup;
+        }
+
         /// <summary>
         /// aplicarFormula
         /// metodo encargado de descomponer la formula y aplicarla

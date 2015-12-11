@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using ApiProyectoKPI.Controllers.DataBaseContext;
 using ApiProyectoKPI.Models;
+using System.Collections;
 
 namespace ApiProyectoKPI.Controllers
 {
@@ -270,6 +271,100 @@ namespace ApiProyectoKPI.Controllers
 
             }
             return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        //basado en fechas!!!!!!!!!!
+        [HttpGet]
+        [Route("api/KPIs/resultados/{idRol}")]
+        public List<List<string>> resultadosKPI(int idRol)
+        {
+            List<List<string>> datos = new List<List<string>>();
+
+            var usuarios = db.Usuarios
+                .Where(b => b.Rol.RolID == idRol);
+            var kp = indicadoresAsignados(idRol).Include(b => b.Parametro).Include(b => b.Formula);
+            
+            
+            //colocar la hora 12:00 en todos los registros
+            //var registros = getRegistros();//db.RegistrosMercadeo.Where(b => b.fechaHora == registro.fechaHora);
+
+
+            List<KPI> kpis = kp.ToList();
+            
+            if (usuarios != null)
+            {
+                foreach (KPI k in kpis)
+                {
+                   var registros = getRegistros(k.Periodicidad,idRol);
+                   if(registros!=null)
+                    datos.Add(k.calcularResultados(registros.ToList<RegistroMercadeo>(), usuarios.ToList<Usuario>()));
+                }
+            }
+
+            return datos;
+        }
+
+        private IEnumerable<RegistroMercadeo> getRegistros(string peridiocidad, int idRol)
+        {
+            List<RegistroMercadeo> registros = new List<RegistroMercadeo>();
+            DateTime fechaActual = new DateTime(DateTime.Now.Year,DateTime.Now.Month,01);
+
+            var todos = db.RegistrosMercadeo.Where(b=>b.usuario.Rol.RolID==idRol);
+
+
+            switch (peridiocidad.ToLower())
+            {
+                case "mensual":
+                    foreach (var r in todos)
+                    {
+                        TimeSpan diferencia = fechaActual.Subtract(r.fechaHora);
+                        if (Convert.ToInt32(diferencia.TotalDays / 30) == 1)
+                        {
+                            registros.Add(r);
+                        }
+                    }
+                    break;
+                case "cuatrimestral":
+                    bool cuatri = false;
+                    foreach (var r in todos)
+                    {
+                        TimeSpan diferencia = fechaActual.Subtract(r.fechaHora);
+                        if (Convert.ToInt32(diferencia.TotalDays / 30) < 5)
+                        {
+                            registros.Add(r);
+                        }
+                        if (Convert.ToInt32(diferencia.TotalDays / 30) == 4)
+                        {
+                            cuatri = true;
+                        }
+                    }
+                    if (!cuatri)
+                    {
+                        registros = null;
+                    }
+
+                    break;
+                case "anual":
+                    bool anio = false;
+                    foreach (var r in todos)
+                    {
+                        TimeSpan diferencia = fechaActual.Subtract(r.fechaHora);
+                        if (Convert.ToInt32(diferencia.TotalDays / 30) < 13)
+                        {
+                            registros.Add(r);
+                        }
+                        if (Convert.ToInt32(diferencia.TotalDays / 30) == 12)
+                        {
+                            anio = true;
+                        }
+                    }
+                    if (!anio)
+                    {
+                        registros = null;
+                    }
+                    break;
+            }
+
+            return registros;
         }
     }
 }
