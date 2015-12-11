@@ -58,5 +58,9 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Pregunta> Preguntas { get; set; }
 
         public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Categoria> Categorias { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.Plantilla> Plantillas { get; set; }
+
+        public System.Data.Entity.DbSet<ApiProyectoKPI.Models.PlantillaDetalle> PlantillaDetalles { get; set; }
     }
 }
