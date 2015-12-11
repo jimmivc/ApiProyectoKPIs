@@ -23,6 +23,13 @@ namespace ApiProyectoKPI.Controllers
             return db.Preguntas.Include(c => c.Categoria);
         }
 
+        [HttpGet]
+        [Route("api/PreguntasCategoria")]
+        public IQueryable<Pregunta> GetPreguntasCategoria()
+        {
+            return db.Preguntas.Include(b => b.Categoria);
+        }
+
         // GET: api/Preguntas/5
         [ResponseType(typeof(Pregunta))]
         public IHttpActionResult GetPregunta(int id)

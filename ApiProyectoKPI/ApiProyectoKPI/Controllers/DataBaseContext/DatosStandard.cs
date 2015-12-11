@@ -11,6 +11,15 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
     {
         protected override void Seed(ApiKPIsContext context)
         {
+            IList<TipoCurso> defaultTiposCurso = new List<TipoCurso>();
+            defaultTiposCurso.Add(new TipoCurso() { TipoCursoID = 1, NombreTipoCurso = "Libre" });
+            defaultTiposCurso.Add(new TipoCurso() { TipoCursoID = 2, NombreTipoCurso = "Acti" });
+            defaultTiposCurso.Add(new TipoCurso() { TipoCursoID = 3, NombreTipoCurso = "Carrera" });
+
+            foreach (TipoCurso tipCurso in defaultTiposCurso)
+            {
+                context.TipoCursoes.Add(tipCurso);
+            }
 
             IList<Permiso> defaultPermisos = new List<Permiso>();
             defaultPermisos.Add(new Permiso() { PermisoID = 1, pAccion = "Operaciones" });
