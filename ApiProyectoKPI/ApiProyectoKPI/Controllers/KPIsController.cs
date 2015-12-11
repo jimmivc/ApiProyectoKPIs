@@ -363,7 +363,7 @@ namespace ApiProyectoKPI.Controllers
                     }
                     break;
             }
-
+            
             return registros;
         }
     }

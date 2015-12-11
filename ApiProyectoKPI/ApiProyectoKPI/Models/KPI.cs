@@ -61,7 +61,7 @@ namespace ApiProyectoKPI.Models
                             {
                                 double datoCampo = getDatoCampo(registro, 0);
 
-                                result.Add(datoCampo.ToString());
+                                result.Add(formatoFinal(datoCampo).ToString());
                                 result.Add(calcularColorResultado(datoCampo));
 
                             }
@@ -86,7 +86,7 @@ namespace ApiProyectoKPI.Models
                                     }
                                 }
 
-                                result.Add(aplicarFormula(datos, formula).ToString());
+                                result.Add(formatoFinal(aplicarFormula(datos, formula)).ToString());
                                 result.Add(calcularColorResultado(aplicarFormula(datos, formula)));
 
                             }
@@ -255,5 +255,19 @@ namespace ApiProyectoKPI.Models
             }
         }
 
+        private double formatoFinal(double resultado)
+        {
+            switch (Formato.ToLower())
+            {
+                case "123":
+                    resultado = Convert.ToInt32(resultado);
+                    break;
+                case "%":
+                    resultado = (resultado * 100) / Objetivo;
+                    break;
+            }
+
+            return resultado;
+        }
     }
 }
