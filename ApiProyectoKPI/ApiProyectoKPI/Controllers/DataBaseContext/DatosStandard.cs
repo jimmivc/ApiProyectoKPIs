@@ -110,7 +110,7 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
             
             context.Usuarios.Add(new Usuario() { UsuarioID=1, Nombre = "Jimmi", Apellidos = "Vila", Cedula = 160400, Correo = "jvilac@ucenfotec.ac.cr", Contrasena = "tXFOeepeTOFiXdv5UUVUBA==", IsActivo = true, Rol = context.Rols.Find(1) });
             context.Usuarios.Add(new Usuario() { UsuarioID=2, Nombre = "Christian", Apellidos = "Ulloa", Cedula = 109150113, Correo = "culloat@ucenfotec.ac.cr", Contrasena = "tXFOeepeTOFiXdv5UUVUBA==", IsActivo = true, Rol = context.Rols.Find(3) });
-            context.Usuarios.Add(new Usuario() { UsuarioID=3, Nombre = "Hernán", Apellidos = "Sáenz", Cedula = 99999999, Correo = "gsaenzp@ucenfotec.ac.cr", Contrasena = "tXFOeepeTOFiXdv5UUVUBA==", IsActivo = true, Rol = context.Rols.Find(3) });
+            context.Usuarios.Add(new Usuario() { UsuarioID=3, Nombre = "Hernán", Apellidos = "Sáenz", Cedula = 99999999, Correo = "gsaenzp@ucenfotec.ac.cr", Contrasena = "tXFOeepeTOFiXdv5UUVUBA==", IsActivo = true, Rol = context.Rols.Find(1) });
             context.Usuarios.Add(new Usuario() { UsuarioID=4, Nombre = "Alvaro", Apellidos = "Cordero", Cedula = 99999999, Correo = "acordero@ucenfotec.ac.cr", Contrasena = "tXFOeepeTOFiXdv5UUVUBA==", IsActivo = true, Rol = context.Rols.Find(3) });
             context.Usuarios.Add(new Usuario() { UsuarioID=5, Nombre = "Alonso", Apellidos = "Guevara", Cedula = 99999999, Correo = "aguevara@ucenfotec.ac.cr", Contrasena = "tXFOeepeTOFiXdv5UUVUBA==", IsActivo = true, Rol = context.Rols.Find(3) });
             foreach (TipoFormaContacto  tipo in defaultTiposFormaContacto)

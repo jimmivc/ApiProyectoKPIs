@@ -31,6 +31,19 @@ namespace ApiProyectoKPI.Controllers
             return db.Usuarios.Include(t => t.Rol).Where(r => r.Rol.RolID == id);
         }
 
+        // GET: api/Usuarios/5
+        [HttpGet]
+        [Route("api/Usuarios/idUser/{id}")]
+        public IHttpActionResult GetRolUsuario(int id)
+        {
+            Usuario usuario = db.Usuarios.Where(b => b.UsuarioID.Equals(id)).Include(b => b.Rol).FirstOrDefault();
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(usuario);
+        }
 
         // GET: api/Usuarios/5
         [ResponseType(typeof(Usuario))]
