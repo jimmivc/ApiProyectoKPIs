@@ -83,7 +83,8 @@ namespace ApiProyectoKPI.Controllers
             db.Rols.Add(rol);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = rol.RolID }, rol);
+            return StatusCode(HttpStatusCode.OK);
+            //return CreatedAtRoute("DefaultApi", new { id = rol.RolID }, rol);
         }
 
         // DELETE: api/Rols/5
