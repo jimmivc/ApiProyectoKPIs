@@ -122,5 +122,45 @@ namespace ApiProyectoKPI.Controllers
         {
             return db.RegistrosMercadeo.Where(b=>b.usuario.Rol.RolID == idRol);
         }
+
+        public void generarRegistros()
+        {
+            DateTime fecha = new DateTime(DateTime.Now.Year, DateTime.Now.Month-1, 1);
+            var registros = db.RegistrosMercadeo.Where(b => b.fechaHora == fecha).ToList<RegistroMercadeo>();
+            if (registros.Count==0)
+            {
+                var seguimientos = db.Seguimientoes.Include(b=>b.Usuario).Where(b=>b.FechaHora.Month == fecha.Month).Where(b=>b.FechaHora.Year == fecha.Year).ToList();
+                var usuariosMercadeo = db.Usuarios.Where(b => b.Rol.RolID == 3).ToList();
+                var ventas = db.Ventas.Include(b => b.Usuario).Where(b => b.Fecha.Month == fecha.Month).Where(b => b.Fecha.Year == fecha.Year).ToList();
+
+                foreach(Usuario mercadeo in usuariosMercadeo){
+                    RegistroMercadeo registro = new RegistroMercadeo();
+                    foreach (Seguimiento datos in seguimientos)
+                    {
+                        if (datos.Usuario.UsuarioID == mercadeo.UsuarioID)
+                        {
+                            registro.DuracionLlamadaEfectiva += datos.DuracionLlamadaMinutos;
+                            registro.TotalLlamadas += datos.NumeroLlamadas;
+                            registro.TotalLlamadasEfectivas += datos.IsEfectiva ? 1 : 0;
+                        }
+                    }
+                    if (registro.PromDuraLlamadasEfectivas != 0)
+                    {
+                        registro.PromDuraLlamadasEfectivas = registro.DuracionLlamadaEfectiva / registro.DuracionLlamadaEfectiva;
+                    }
+                    foreach(Venta venta in ventas){
+                        if (venta.Usuario.UsuarioID == mercadeo.UsuarioID)
+                        {
+                            registro.CantidadVentas += 1;
+                            registro.MontoTotalVentas += venta.Monto;
+                        }
+                    }
+
+                    registro.fechaHora = fecha;
+                    registro.usuario = mercadeo;
+                    PostRegistroMercadeo(registro);
+                }
+            }
+        }
     }
 }

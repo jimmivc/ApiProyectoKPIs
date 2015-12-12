@@ -270,5 +270,82 @@ namespace ApiProyectoKPI.Models
 
             return resultado;
         }
+
+        public List<string> calcularResultadosProfes(List<EvaluacionProfesor> evaluaciones, List<Usuario> profesores)
+        {
+            List<string> result = new List<string>();
+
+            //agrupar registros
+            //if (!Periodicidad.Equals("mensual"))
+            //{
+            //    evaluaciones = agruparRegistros(profesores, evaluaciones);
+            //}
+
+            foreach (Usuario user in profesores)
+            {
+                foreach (EvaluacionProfesor evaluacion in evaluaciones)
+                {
+                    if (evaluacion.Profesor != null)
+                    {
+                        if (evaluacion.Profesor.UsuarioID == user.UsuarioID)
+                        {
+                            result.Add(DescKpi);
+                            result.Add(user.Nombre + " " + user.Apellidos);
+                            result.Add(evaluacion.Curso.NombreCurso);
+                            result.Add(Objetivo.ToString());
+                            if (isCalculoCampoUnico())
+                            {
+                                double datoCampo = getDatoCampoProfesor(evaluacion, 0);
+
+                                result.Add(formatoFinal(datoCampo).ToString());
+                                result.Add(calcularColorResultado(datoCampo));
+
+                            }
+                            else
+                            {
+
+                                List<double> datos = new List<double>();
+                                List<DetalleFormula> formula = Formula.ToList<DetalleFormula>();
+
+                                for (int i = 0; i < Formula.Count; i++)
+                                {
+                                    if (formula[i].Tabla != null)
+                                    {
+                                        //result.Add(getDatoCampo(registro, i).ToString());
+                                        datos.Add(getDatoCampoProfesor(evaluacion, i));
+                                    }
+                                    else if (formula[i].Valor != 0)
+                                    {
+                                        //result.Add(formula[i].Valor.Value.ToString());
+                                        datos.Add(formula[i].Valor.Value);
+                                    }
+                                }
+
+                                result.Add(formatoFinal(aplicarFormula(datos, formula)).ToString());
+                                result.Add(calcularColorResultado(aplicarFormula(datos, formula)));
+
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        private double getDatoCampoProfesor(EvaluacionProfesor evaluacion, int indiceFormula)
+        {
+            List<DetalleFormula> formula = Formula.ToList<DetalleFormula>();
+            double dato;
+            switch (formula[indiceFormula].Tabla.ToLower())
+            {
+                case "nota promedio curso":
+                    dato = evaluacion.NotaPromedio;
+                    break;
+                default:
+                    dato=0;
+                    break;
+            }
+            return dato;
+        }
     }
 }
