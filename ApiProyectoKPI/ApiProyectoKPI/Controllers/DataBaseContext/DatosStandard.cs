@@ -127,10 +127,10 @@ namespace ApiProyectoKPI.Controllers.DataBaseContext
             }
 
             IList<RegistroMercadeo> defaultRegistrosMercadeo = new List<RegistroMercadeo>();
-            defaultRegistrosMercadeo.Add(new RegistroMercadeo() { usuario = context.Usuarios.Find(2), CantidadVentas = 10, DuracionLlamadaEfectiva = 10, fechaHora = new DateTime(2015, 1, 1), MontoTotalVentas = 100000, PromDuraLlamadasEfectivas = 10, TotalLlamadas = 40, TotalLlamadasEfectivas = 12 });
-            defaultRegistrosMercadeo.Add(new RegistroMercadeo() { usuario = context.Usuarios.Find(3), CantidadVentas = 10, DuracionLlamadaEfectiva = 10, fechaHora = new DateTime(2015, 1, 1), MontoTotalVentas = 200000, PromDuraLlamadasEfectivas = 12, TotalLlamadas = 30, TotalLlamadasEfectivas = 9 });
-            defaultRegistrosMercadeo.Add(new RegistroMercadeo() { usuario = context.Usuarios.Find(4), CantidadVentas = 10, DuracionLlamadaEfectiva = 10, fechaHora = new DateTime(2015, 1, 1), MontoTotalVentas = 300000, PromDuraLlamadasEfectivas = 21, TotalLlamadas = 20, TotalLlamadasEfectivas = 6 });
-            defaultRegistrosMercadeo.Add(new RegistroMercadeo() { usuario = context.Usuarios.Find(5), CantidadVentas = 10, DuracionLlamadaEfectiva = 10, fechaHora = new DateTime(2015, 1, 1), MontoTotalVentas = 400000, PromDuraLlamadasEfectivas = 14, TotalLlamadas = 10, TotalLlamadasEfectivas = 3 });
+            defaultRegistrosMercadeo.Add(new RegistroMercadeo() { usuario = context.Usuarios.Find(2), CantidadVentas = 10, DuracionLlamadaEfectiva = 10, fechaHora = new DateTime(2015, 11, 1), MontoTotalVentas = 100000, PromDuraLlamadasEfectivas = 10, TotalLlamadas = 40, TotalLlamadasEfectivas = 12 });
+            defaultRegistrosMercadeo.Add(new RegistroMercadeo() { usuario = context.Usuarios.Find(3), CantidadVentas = 10, DuracionLlamadaEfectiva = 10, fechaHora = new DateTime(2015, 11, 1), MontoTotalVentas = 200000, PromDuraLlamadasEfectivas = 12, TotalLlamadas = 30, TotalLlamadasEfectivas = 9 });
+            defaultRegistrosMercadeo.Add(new RegistroMercadeo() { usuario = context.Usuarios.Find(4), CantidadVentas = 10, DuracionLlamadaEfectiva = 10, fechaHora = new DateTime(2015, 11, 1), MontoTotalVentas = 300000, PromDuraLlamadasEfectivas = 21, TotalLlamadas = 20, TotalLlamadasEfectivas = 6 });
+            defaultRegistrosMercadeo.Add(new RegistroMercadeo() { usuario = context.Usuarios.Find(5), CantidadVentas = 10, DuracionLlamadaEfectiva = 10, fechaHora = new DateTime(2015, 11, 1), MontoTotalVentas = 400000, PromDuraLlamadasEfectivas = 14, TotalLlamadas = 10, TotalLlamadasEfectivas = 3 });
 
             foreach (RegistroMercadeo registro in defaultRegistrosMercadeo)
                 context.RegistrosMercadeo.Add(registro);

@@ -172,6 +172,9 @@
     <Compile Include="Controllers\DataBaseContext\ApiKPIsContext.cs" />
     <Compile Include="Controllers\DataBaseContext\DatosStandard.cs" />
     <Compile Include="Controllers\DetalleFormulasController.cs" />
+    <Compile Include="Controllers\EncuestaDetallesController.cs" />
+    <Compile Include="Controllers\EncuestaMaestroesController.cs" />
+    <Compile Include="Controllers\EvaluacionProfesorsController.cs" />
     <Compile Include="Controllers\EventoesController.cs" />
     <Compile Include="Controllers\FormasContactoesController.cs" />
     <Compile Include="Controllers\GrupoEmpresarialsController.cs" />
@@ -200,6 +203,9 @@
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\Curso.cs" />
     <Compile Include="Models\DetalleFormula.cs" />
+    <Compile Include="Models\EncuestaDetalle.cs" />
+    <Compile Include="Models\EncuestaMaestro.cs" />
+    <Compile Include="Models\EvaluacionProfesor.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\FormasContacto.cs" />
     <Compile Include="Models\GrupoEmpresarial.cs" />
