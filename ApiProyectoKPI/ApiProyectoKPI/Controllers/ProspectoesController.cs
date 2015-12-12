@@ -419,12 +419,12 @@ namespace ApiProyectoKPI.Controllers
         //*****marjorie
         // GET: api/Prospectoes/Usuarios
         [HttpGet]
-        [Route("api/Prospectoes/Usuarios/")]
-        public IQueryable<Prospecto> prospectoUsuario()
+        [Route("api/Prospectoes/Usuarios/{idUsuario}")]
+        public IQueryable<Prospecto> prospectosUsuario(int idUsuario)
         {
 
 
-            return db.Prospectoes.Include(e => e.Usuario).Include(b => b.Usuario.Rol);
+            return db.Prospectoes.Include(e => e.Usuario).Include(b => b.Usuario.Rol).Where(b=>b.Usuario.UsuarioID == idUsuario);
 
 
         }
@@ -453,7 +453,7 @@ namespace ApiProyectoKPI.Controllers
                 db.SaveChanges();
                 return Request.CreateResponse<string>(HttpStatusCode.InternalServerError, "El usuario fue asignado efectivamente al prospecto correspondiente");
             }
-            catch (DbUpdateException up)
+            catch (DbUpdateException)
             {
                 return Request.CreateResponse<string>(HttpStatusCode.InternalServerError, "El usuario ya fue asignado");
             }
