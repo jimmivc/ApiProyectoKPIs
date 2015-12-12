@@ -18,23 +18,23 @@ namespace ApiProyectoKPI.Controllers
         private ApiKPIsContext db = new ApiKPIsContext();
 
         // GET: api/PlantillaDetalle
-        public IQueryable<PlantillaDetalle> GetPlantillaDetalles()
+        public IQueryable<PlantillaDetalle> GetPlantillaDetalles(int id)
         {
-            return db.PlantillaDetalles;
+            return db.PlantillaDetalles.Include(d => d.Plantilla).Where(p => p.Plantilla.PlantillaID == id);
         }
 
-        // GET: api/PlantillaDetalle/5
-        [ResponseType(typeof(PlantillaDetalle))]
-        public IHttpActionResult GetPlantillaDetalle(int id)
-        {
-            PlantillaDetalle plantillaDetalle = db.PlantillaDetalles.Find(id);
-            if (plantillaDetalle == null)
-            {
-                return NotFound();
-            }
+        //// GET: api/PlantillaDetalle/5
+        //[ResponseType(typeof(PlantillaDetalle))]
+        //public IHttpActionResult GetPlantillaDetalle(int id)
+        //{
+        //    PlantillaDetalle plantillaDetalle = db.PlantillaDetalles.Find(id);
+        //    if (plantillaDetalle == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(plantillaDetalle);
-        }
+        //    return Ok(plantillaDetalle);
+        //}
 
         // PUT: api/PlantillaDetalle/5
         [ResponseType(typeof(void))]
