@@ -172,6 +172,8 @@
     <Compile Include="Controllers\DataBaseContext\ApiKPIsContext.cs" />
     <Compile Include="Controllers\DataBaseContext\DatosStandard.cs" />
     <Compile Include="Controllers\DetalleFormulasController.cs" />
+    <Compile Include="Controllers\EncuestaDetallesController.cs" />
+    <Compile Include="Controllers\EncuestaMaestroesController.cs" />
     <Compile Include="Controllers\EventoesController.cs" />
     <Compile Include="Controllers\FormasContactoesController.cs" />
     <Compile Include="Controllers\GrupoEmpresarialsController.cs" />
@@ -179,6 +181,8 @@
     <Compile Include="Controllers\KPIsController.cs" />
     <Compile Include="Controllers\ParametroKPIsController.cs" />
     <Compile Include="Controllers\PermisoesController.cs" />
+    <Compile Include="Controllers\PlantillaDetalleController.cs" />
+    <Compile Include="Controllers\PlantillasController.cs" />
     <Compile Include="Controllers\PreguntasController.cs" />
     <Compile Include="Controllers\ProspectoesController.cs" />
     <Compile Include="Controllers\RegistroMercadeosController.cs" />
@@ -198,12 +202,16 @@
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\Curso.cs" />
     <Compile Include="Models\DetalleFormula.cs" />
+    <Compile Include="Models\EncuestaDetalle.cs" />
+    <Compile Include="Models\EncuestaMaestro.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\FormasContacto.cs" />
     <Compile Include="Models\GrupoEmpresarial.cs" />
     <Compile Include="Models\KPI.cs" />
     <Compile Include="Models\ParametroKPI.cs" />
     <Compile Include="Models\Permiso.cs" />
+    <Compile Include="Models\Plantilla.cs" />
+    <Compile Include="Models\PlantillaDetalle.cs" />
     <Compile Include="Models\Pregunta.cs" />
     <Compile Include="Models\Prospecto.cs" />
     <Compile Include="Models\RegistroMercadeo.cs" />
