@@ -22,7 +22,7 @@ namespace ApiProyectoKPI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            new RegistroMercadeosController().generarRegistros();
+            //new RegistroMercadeosController().generarRegistros();
         }
     }
 }
