@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using ApiProyectoKPI.Controllers.DataBaseContext;
 using ApiProyectoKPI.Models;
+using ApiProyectoKPI.Controllers;
 
 namespace ApiProyectoKPI.Controllers
 {
@@ -90,6 +91,81 @@ namespace ApiProyectoKPI.Controllers
         {
             return db.RelacionCursos;
         }
+
+        [HttpGet]
+        [Route("api/RelacionCursos/Generar/{idProfesor}/{cuatrimestre}/{anio}/{curso}/{plantilla}")]
+        //[ResponseType(typeof(RelacionCursos))]
+        public IHttpActionResult GetGenerarRelacionCursosEncuesta(int idProfesor, int cuatrimestre, int anio, int curso, int plantilla)
+        {
+            List<EncuestaMaestro> listaEncuestas = GenerarRelacionCursosEncuesta(idProfesor,cuatrimestre,anio,curso,plantilla);
+            foreach (EncuestaMaestro l in listaEncuestas)
+            {
+                PostEncuestaMaestro(l);
+            }
+            return Ok(listaEncuestas);
+            
+        }
+
+       
+        //[ResponseType(typeof(RelacionCursos))]
+        public List<EncuestaMaestro> GenerarRelacionCursosEncuesta(int idProfesor, int cuatrimestre, int anio, int curso, int plantilla)
+        {
+            EncuestaMaestro encuestaMaestro = new EncuestaMaestro();
+            List<EncuestaMaestro> listaEncuestas = new List<EncuestaMaestro>();
+            var detallePreguntas = db.PlantillaDetalles.Include(d => d.Plantilla).Include(t => t.Pregunta).Where(p => p.Plantilla.PlantillaID == 1).ToList();
+            var machote = db.Plantillas.Find(plantilla);
+            var listaRelacionCursos = db.RelacionCursos.Where(p => p.Profesor.UsuarioID == idProfesor).
+                Where(c => c.Cuatrimestre == cuatrimestre).Where(a => a.Anio == anio).Where(u => u.Curso.CursoID == curso);
+            
+            foreach (RelacionCursos r in listaRelacionCursos)
+            {
+                
+                var detallesEncuesta = new List<EncuestaDetalle>();
+                foreach (PlantillaDetalle p in detallePreguntas)
+                {
+                    EncuestaDetalle encuestaDetalle = new EncuestaDetalle(0, p.Pregunta, 0);
+                    detallesEncuesta.Add(encuestaDetalle);
+                }
+                encuestaMaestro = new EncuestaMaestro(0,r,machote,DateTime.Now,detallesEncuesta);
+                listaEncuestas.Add(encuestaMaestro);
+               }
+            return listaEncuestas;
+        }
+
+
+
+        // POST: api/EncuestaDetalles
+        [ResponseType(typeof(EncuestaDetalle))]
+        public IHttpActionResult PostEncuestaDetalle(EncuestaDetalle encuestaDetalle)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.EncuestaDetalles.Add(encuestaDetalle);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = encuestaDetalle.EncuestaDetalleID }, encuestaDetalle);
+        }
+
+        
+
+        // POST: api/EncuestaMaestroes
+        [ResponseType(typeof(EncuestaMaestro))]
+        public IHttpActionResult PostEncuestaMaestro(EncuestaMaestro encuestaMaestro)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.EncuestaMaestroes.Add(encuestaMaestro);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = encuestaMaestro.EncuestaMaestroID }, encuestaMaestro);
+        }
+
 
         // GET: api/RelacionCursos/5
         [ResponseType(typeof(RelacionCursos))]
