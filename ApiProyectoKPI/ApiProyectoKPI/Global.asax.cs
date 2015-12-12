@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApiProyectoKPI.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,6 +21,8 @@ namespace ApiProyectoKPI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //new RegistroMercadeosController().generarRegistros();
         }
     }
 }

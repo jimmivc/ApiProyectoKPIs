@@ -387,5 +387,74 @@ namespace ApiProyectoKPI.Controllers
 
             return datos;
         }
+
+        [HttpGet]
+        [Route("api/KPIs/resultados/profesores/{cuatri}/{anio}")]
+        public List<List<string>> resultadosKPIprofes(int cuatri, int anio)
+        {
+            List<List<string>> datos = new List<List<string>>();
+
+            var usuarios = db.Usuarios
+                .Where(b => b.Rol.RolID == 4);
+            var kp = indicadoresAsignados(4).Include(b => b.Parametro).Include(b => b.Formula);
+
+
+            List<KPI> kpis = kp.ToList();
+
+            if (usuarios != null)
+            {
+                foreach (KPI k in kpis)
+                {
+                    var evaluaciones = getEvaluaciones(cuatri,anio);
+                    if (evaluaciones != null)
+                        datos.Add(k.calcularResultadosProfes(evaluaciones.ToList<EvaluacionProfesor>(), usuarios.ToList<Usuario>()));
+                }
+            }
+
+            return datos;
+        }
+
+        private IEnumerable<EvaluacionProfesor> getEvaluaciones(int cuatri, int anio)
+        {
+
+            var evaluaciones = db.EvaluacionProfesors.Where(b => b.Cuatrimestre == cuatri).Include(b=>b.Curso).Include(b=>b.Profesor).Where(b=>b.Anio == anio);
+
+
+            //switch (peridiocidad.ToLower())
+            //{
+            //    case "cuatrimestral":
+            //        foreach (var r in todos)
+            //        {
+            //            TimeSpan diferencia = fechaActual.Subtract(r.fechaHora);
+            //            if (Convert.ToInt32(diferencia.TotalDays / 30) < 5)
+            //            {
+            //                registros.Add(r);
+            //            }
+            //        }
+
+            //        break;
+                //case "anual":
+                //    bool anio = false;
+                //    foreach (var r in todos)
+                //    {
+                //        TimeSpan diferencia = fechaActual.Subtract(r.fechaHora);
+                //        if (Convert.ToInt32(diferencia.TotalDays / 30) < 13)
+                //        {
+                //            registros.Add(r);
+                //        }
+                //        if (Convert.ToInt32(diferencia.TotalDays / 30) == 12)
+                //        {
+                //            anio = true;
+                //        }
+                //    }
+                //    if (!anio)
+                //    {
+                //        registros = null;
+                //    }
+                //    break;
+            //}
+
+            return evaluaciones;
+        }
     }
 }
