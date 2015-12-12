@@ -382,10 +382,7 @@ namespace ApiProyectoKPI.Controllers
                 datos.Add("Monto Ventas");
             
             }else if(campos.Equals("profesores")){
-                datos.Add("Cantidad Estudiantes");
-                datos.Add("Cantidad Encuestados");
-                datos.Add("Porcentaje Participacion");
-                datos.Add("Nota Promedio");
+                datos.Add("Nota Promedio Curso");
             }
 
             return datos;
